@@ -1,6 +1,6 @@
 import { Events } from 'discord.js';
 import { logMessage } from './ready';
-import { EagleClient } from '@/client';
+import { EagleClient } from '../client';
 
 /**
  * Handles the InteractionCreate event.

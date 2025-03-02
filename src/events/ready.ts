@@ -1,9 +1,9 @@
 import { Events, REST, Routes } from 'discord.js';
-import { config } from '@/config/config';
-import { EagleClient } from '@/client';
+import { config } from '../config/config';
+import { EagleClient } from '../client';
 
-import { startCommand } from '@/commands/start';
-import { inventoryCommand } from '@/commands/inventory';
+import { startCommand } from '../commands/start';
+import { inventoryCommand } from '../commands/inventory';
 
 /**
  * Logs the provided message with a timestamp.
@@ -20,7 +20,7 @@ export const readyEvent = (client: EagleClient) => {
 		if (client.user) {
 			logMessage(`Logged in as ${client.user.tag}`, 'info');
 			const rest = new REST({ version: '10' }).setToken(config.token);
-			const commands = [startCommand];
+			const commands = [startCommand, inventoryCommand];
 
 			client.commands.set(startCommand.name, startCommand);
 			client.commands.set(inventoryCommand.name, inventoryCommand);

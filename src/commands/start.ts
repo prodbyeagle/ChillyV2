@@ -1,7 +1,7 @@
 import { CommandInteraction, EmbedBuilder } from 'discord.js';
-import type { Command } from '@/types';
-import { Database } from '@/config/db';
-import { logMessage } from '@/events/ready';
+import type { Command } from '../types';
+import { Database } from '../config/db';
+import { logMessage } from '../events/ready';
 
 const db = new Database();
 

@@ -1,6 +1,6 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { config } from './config';
-import type { PlayerData } from '@/types';
+import type { PlayerData } from '../types';
 
 export class Database {
 	private supabase: SupabaseClient;

@@ -1,6 +1,6 @@
 import { CommandInteraction, EmbedBuilder } from 'discord.js';
-import type { Command } from '@/types';
-import { Database } from '@/config/db';
+import type { Command } from '../types';
+import { Database } from '../config/db';
 
 export const inventoryCommand: Command = {
 	name: 'inventory',
