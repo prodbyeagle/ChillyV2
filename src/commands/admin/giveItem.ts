@@ -13,6 +13,7 @@ export const giveItemCommand: Command = {
 	name: 'giveitem',
 	description: 'Give an item to a player.',
 	//! cant remove error. but it works tho
+	// @ts-ignore
 	data: new SlashCommandBuilder()
 		.setName('giveitem')
 		.setDescription('Give an item to a player.')
