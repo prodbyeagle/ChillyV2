@@ -1,4 +1,4 @@
-import { Events } from 'discord.js';
+import { Events, MessageFlags } from 'discord.js';
 import { logMessage } from './ready';
 import { ChillyRPGClient } from '../client';
 
@@ -27,10 +27,12 @@ export const interactionCreateEvent = (client: ChillyRPGClient) => {
 				`Error executing command ${interaction.commandName}: ${error}`,
 				'error'
 			);
+
 			const errorMessage = {
 				content: 'There was an error executing this command!',
-				ephemeral: true,
+				flags: MessageFlags.Ephemeral as const,
 			};
+
 			if (interaction.replied || interaction.deferred) {
 				await interaction.followUp(errorMessage);
 			} else {
