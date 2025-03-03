@@ -1,36 +1,28 @@
-import { SlashCommandBuilder } from 'discord.js';
+import {
+	AutocompleteInteraction,
+	CommandInteraction,
+	SlashCommandBuilder,
+} from 'discord.js';
+import { Item } from '../logic/item';
 
-export type Command = {
+export interface InventoryItem {
+	item: Item;
+}
+
+export interface Command {
 	name: string;
 	description: string;
-	data?: SlashCommandBuilder;
-	execute: (interaction: any) => Promise<void>;
-};
+	data: SlashCommandBuilder;
+	autocomplete?: (interaction: AutocompleteInteraction) => Promise<void>;
+	execute: (interaction: CommandInteraction) => Promise<void>;
+}
 
 export interface PlayerData {
+	id: string;
 	name: string;
 	gameStarted: boolean;
 	level: number;
-	masteryPoints: number;
 	xp: number;
 	gold: number;
-	lastDailyClaim: number;
-	lastWeeklyClaim: number;
-	lastMonthlyClaim: number;
-	messagesSent: number;
-	clicks: number;
-	petPoints: number;
-	activePets: Record<string, any>;
-	pets: Record<string, any>;
-	inventory: Record<string, any>;
-	masteries: Record<
-		string,
-		{
-			name: string;
-			description: string;
-			maxLevel: number;
-			currentLevel: number;
-			cost: number;
-		}
-	>;
+	inventory: Record<string, InventoryItem>;
 }

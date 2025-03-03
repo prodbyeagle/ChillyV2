@@ -1,11 +1,11 @@
 import { Events } from 'discord.js';
 import { logMessage } from './ready';
-import { EagleClient } from '../client';
+import { ChillyRPGClient } from '../client';
 
 /**
  * Handles the InteractionCreate event.
  */
-export const interactionCreateEvent = (client: EagleClient) => {
+export const interactionCreateEvent = (client: ChillyRPGClient) => {
 	client.on(Events.InteractionCreate, async (interaction) => {
 		if (!interaction.isChatInputCommand()) return;
 

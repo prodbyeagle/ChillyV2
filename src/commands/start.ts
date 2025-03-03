@@ -1,18 +1,24 @@
-import { CommandInteraction, EmbedBuilder } from 'discord.js';
-import type { Command } from '../types';
-import { Database } from '../config/db';
+import {
+	CommandInteraction,
+	EmbedBuilder,
+	SlashCommandBuilder,
+} from 'discord.js';
+import type { Command, PlayerData } from '../types';
+import { api } from '../config/api';
 import { logMessage } from '../events/ready';
-
-const db = new Database();
 
 export const startCommand: Command = {
 	name: 'start',
-	description: 'Starts an new Character.',
+	description: 'Starts a new Character.',
+	data: new SlashCommandBuilder()
+		.setName('start')
+		.setDescription('Starts a new character.'),
 	execute: async (interaction: CommandInteraction) => {
 		const playerName = interaction.user.username;
+		const playerId = interaction.user.id;
 
 		try {
-			const existingPlayer = await db.getPlayerData(playerName);
+			const existingPlayer = await api.getPlayer(playerName);
 
 			if (existingPlayer) {
 				const embed = new EmbedBuilder()
@@ -29,26 +35,17 @@ export const startCommand: Command = {
 				return;
 			}
 
-			const newPlayer = {
+			const newPlayer: PlayerData = {
+				id: playerId,
 				name: playerName,
 				gameStarted: true,
 				level: 1,
-				masteryPoints: 0,
 				xp: 0,
 				gold: 100,
-				lastDailyClaim: 0,
-				lastWeeklyClaim: 0,
-				lastMonthlyClaim: 0,
-				messagesSent: 0,
-				clicks: 0,
-				petPoints: 0,
-				activePets: {},
-				pets: {},
 				inventory: {},
-				masteries: {},
 			};
 
-			const success = await db.createPlayer(newPlayer);
+			const success = await api.createPlayer(newPlayer);
 
 			if (!success) {
 				logMessage('Error creating player in the database', 'error');
@@ -69,10 +66,9 @@ export const startCommand: Command = {
 				'⚔️ Greetings, {player_name}! Embark on your medieval quest now.',
 			];
 
-			const randomMessage =
-				welcomeMessages[
-					Math.floor(Math.random() * welcomeMessages.length)
-				];
+			const randomMessage = welcomeMessages[
+				Math.floor(Math.random() * welcomeMessages.length)
+			].replace('{player_name}', playerName);
 
 			const embed = new EmbedBuilder()
 				.setTitle('⚔️ Medieval RPG')
@@ -81,9 +77,9 @@ export const startCommand: Command = {
 				.setTimestamp()
 				.setFooter({ text: '🦅 prodbyeagle' });
 
-			await interaction.reply({ embeds: [embed], ephemeral: true });
+			await interaction.reply({ embeds: [embed], flags: 'Ephemeral' });
 		} catch (error) {
-			logMessage(`Error in /start command: ${error}`, 'error');
+			logMessage(`Error in /start command: ${String(error)}`, 'error');
 			await interaction.reply({
 				content:
 					'An unexpected error occurred while starting the game. Please contact support.',

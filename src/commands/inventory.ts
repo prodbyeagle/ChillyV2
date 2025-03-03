@@ -1,14 +1,21 @@
-import { CommandInteraction, EmbedBuilder } from 'discord.js';
-import type { Command } from '../types';
-import { Database } from '../config/db';
+import {
+	CommandInteraction,
+	EmbedBuilder,
+	SlashCommandBuilder,
+} from 'discord.js';
+import type { Command, InventoryItem } from '../types';
+import { api } from '../config/api';
 
 export const inventoryCommand: Command = {
 	name: 'inventory',
-	description: '📦 Displays your inventory.',
+	description: 'Displays your inventory.',
+	data: new SlashCommandBuilder()
+		.setName('inventory')
+		.setDescription('📦 Displays your inventory.'),
 	execute: async (interaction: CommandInteraction) => {
-		const db = new Database();
 		const playerName = interaction.user.username;
-		const playerData = await db.getPlayerData(playerName);
+		const playerData = await api.getInventory(playerName);
+		console.log('Fetched Player Data:', playerData);
 
 		if (!playerData) {
 			await interaction.reply({
@@ -19,7 +26,7 @@ export const inventoryCommand: Command = {
 			return;
 		}
 
-		const inventory = playerData.inventory ?? {};
+		const inventory = playerData ?? {};
 
 		if (Object.keys(inventory).length === 0) {
 			await interaction.reply({
@@ -36,12 +43,17 @@ export const inventoryCommand: Command = {
 			.setColor(0x0099ff)
 			.setFooter({ text: '🦅 prodbyeagle' });
 
-		for (const [item, count] of Object.entries(inventory)) {
-			embed.addFields({
-				name: `• ${item}`,
-				value: `x${count}`,
-				inline: true,
-			});
+		for (const [itemId, data] of Object.entries(inventory) as [
+			string,
+			InventoryItem
+		][]) {
+			if (data.item.quantity !== undefined) {
+				embed.addFields({
+					name: `・ ${data.item.name}`,
+					value: `x${data.item.quantity}`,
+					inline: true,
+				});
+			}
 		}
 
 		await interaction.reply({ embeds: [embed], flags: 'Ephemeral' });

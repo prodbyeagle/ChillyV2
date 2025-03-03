@@ -1,9 +1,9 @@
 import { Events, REST, Routes } from 'discord.js';
 import { config } from '../config/config';
-import { EagleClient } from '../client';
-
+import { ChillyRPGClient } from '../client';
 import { startCommand } from '../commands/start';
 import { inventoryCommand } from '../commands/inventory';
+import { giveItemCommand } from '../commands/admin/giveItem';
 
 /**
  * Logs the provided message with a timestamp.
@@ -15,15 +15,29 @@ export const logMessage = (
 	console[level](`${level.toUpperCase()}: ${message}`);
 };
 
-export const readyEvent = (client: EagleClient) => {
+export const readyEvent = (client: ChillyRPGClient) => {
 	client.on(Events.ClientReady, async () => {
 		if (client.user) {
 			logMessage(`Logged in as ${client.user.tag}`, 'info');
 			const rest = new REST({ version: '10' }).setToken(config.token);
-			const commands = [startCommand, inventoryCommand];
+
+			const commands = new Map();
+			commands.set(startCommand.name, startCommand);
+			commands.set(inventoryCommand.name, inventoryCommand);
+			commands.set(giveItemCommand.name, giveItemCommand);
 
 			client.commands.set(startCommand.name, startCommand);
 			client.commands.set(inventoryCommand.name, inventoryCommand);
+			client.commands.set(giveItemCommand.name, giveItemCommand);
+
+			client.on(Events.InteractionCreate, async (interaction) => {
+				if (interaction.isAutocomplete()) {
+					const command = commands.get(interaction.commandName);
+					if (command?.autocomplete) {
+						await command.autocomplete(interaction);
+					}
+				}
+			});
 
 			try {
 				logMessage(
@@ -31,11 +45,10 @@ export const readyEvent = (client: EagleClient) => {
 					'info'
 				);
 
-				rest.put(Routes.applicationCommands(client.user.id), {
-					body: commands.map((command) => ({
-						name: command.name,
-						description: command.description,
-					})),
+				await rest.put(Routes.applicationCommands(client.user.id), {
+					body: Array.from(commands.values()).map((command) =>
+						command.data.toJSON()
+					),
 				});
 
 				logMessage(

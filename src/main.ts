@@ -1,12 +1,11 @@
 import { config } from './config/config';
 import { logMessage, readyEvent } from './events/ready';
-import dotenv from 'dotenv';
-import { EagleClient } from './client';
+import { ChillyRPGClient } from './client';
 import { interactionCreateEvent } from './events/interaction';
 
-dotenv.config();
+require('dotenv').config();
 
-const client = new EagleClient();
+const client = new ChillyRPGClient();
 
 readyEvent(client);
 interactionCreateEvent(client);

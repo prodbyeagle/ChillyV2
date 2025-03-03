@@ -1,6 +1,6 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { config } from './config';
-import type { PlayerData } from '../types';
+import { logMessage } from '../events/ready';
 
 export class Database {
 	private supabase: SupabaseClient;
@@ -9,100 +9,131 @@ export class Database {
 		this.supabase = createClient(config.supabaseUrl, config.supabaseKey);
 	}
 
-	/**
-	 * Fetches player data from the database.
-	 * @param name - The player's name.
-	 * @returns PlayerData object or null if not found.
-	 */
-	async getPlayerData(name: string): Promise<PlayerData | null> {
+	async get<T>(
+		table: string,
+		filters?: Record<string, any>
+	): Promise<T[] | null> {
+		logMessage(
+			`Fetching data from table: ${table} with filters: ${JSON.stringify(
+				filters
+			)}`,
+			'info'
+		);
 		try {
-			const { data, error } = await this.supabase
-				.from('players')
-				.select('*')
-				.eq('name', name)
-				.single();
+			let query = this.supabase.from(table).select('*');
 
-			if (error) {
-				console.error(
-					`Error fetching player data for ${name}:`,
-					error.message
-				);
-				return null;
+			if (filters) {
+				for (const [key, value] of Object.entries(filters)) {
+					query = query.eq(key, value);
+				}
 			}
 
-			if (!data) {
-				console.warn(`Player data not found for: ${name}`);
-				return null;
-			}
+			const { data, error } = await query;
+			if (error) throw error;
 
+			logMessage(
+				`Successfully fetched data from table: ${table}`,
+				'info'
+			);
 			return data;
-		} catch (error) {
-			console.error(
-				`Unexpected error fetching player data for ${name}:`,
-				error
+		} catch (err) {
+			const error = err as Error;
+			logMessage(
+				`Error fetching data from ${table}: ${error.message}`,
+				'error'
 			);
 			return null;
 		}
 	}
 
-	/**
-	 * Creates a new player entry in the database.
-	 * @param player - PlayerData object to insert.
-	 * @returns Boolean indicating success.
-	 */
-	async createPlayer(player: PlayerData): Promise<boolean> {
+	async post<T>(table: string, data: T): Promise<boolean> {
+		logMessage(`Inserting data into table: ${table}`, 'info');
 		try {
-			const { error } = await this.supabase
-				.from('players')
-				.insert(player);
+			const { error } = await this.supabase.from(table).insert(data);
+			if (error) throw error;
 
-			if (error) {
-				console.error(
-					`Error creating player ${player.name}:`,
-					error.message
-				);
-				return false;
-			}
-
+			logMessage(
+				`Successfully inserted data into table: ${table}`,
+				'info'
+			);
 			return true;
-		} catch (error) {
-			console.error(
-				`Unexpected error creating player ${player.name}:`,
-				error
+		} catch (err) {
+			const error = err as Error;
+			logMessage(
+				`Error inserting data into ${table}: ${error.message}`,
+				'error'
 			);
 			return false;
 		}
 	}
 
-	/**
-	 * Updates an existing player's data.
-	 * @param name - Player's name.
-	 * @param updates - Partial PlayerData object with fields to update.
-	 * @returns Boolean indicating success.
-	 */
-	async updatePlayer(
-		name: string,
-		updates: Partial<PlayerData>
+	async patch<T>(
+		table: string,
+		filters: Record<string, any>,
+		updates: Partial<T>
 	): Promise<boolean> {
+		logMessage(
+			`Updating data in table: ${table} with filters: ${JSON.stringify(
+				filters
+			)}`,
+			'info'
+		);
 		try {
 			if (Object.keys(updates).length === 0) {
-				console.warn(`No updates provided for player: ${name}`);
+				logMessage(`No updates provided for table: ${table}`, 'warn');
 				return false;
 			}
 
-			const { error } = await this.supabase
-				.from('players')
-				.update(updates)
-				.eq('name', name);
-
-			if (error) {
-				console.error(`Error updating player ${name}:`, error.message);
-				return false;
+			let query = this.supabase.from(table).update(updates);
+			for (const [key, value] of Object.entries(filters)) {
+				query = query.eq(key, value);
 			}
 
+			const { error } = await query;
+			if (error) throw error;
+
+			logMessage(`Successfully updated data in table: ${table}`, 'info');
 			return true;
-		} catch (error) {
-			console.error(`Unexpected error updating player ${name}:`, error);
+		} catch (err) {
+			const error = err as Error;
+			logMessage(
+				`Error updating data in ${table}: ${error.message}`,
+				'error'
+			);
+			return false;
+		}
+	}
+
+	async delete(
+		table: string,
+		filters: Record<string, any>
+	): Promise<boolean> {
+		logMessage(
+			`Deleting data from table: ${table} with filters: ${JSON.stringify(
+				filters
+			)}`,
+			'info'
+		);
+		try {
+			let query = this.supabase.from(table).delete();
+			for (const [key, value] of Object.entries(filters)) {
+				query = query.eq(key, value);
+			}
+
+			const { error } = await query;
+			if (error) throw error;
+
+			logMessage(
+				`Successfully deleted data from table: ${table}`,
+				'info'
+			);
+			return true;
+		} catch (err) {
+			const error = err as Error;
+			logMessage(
+				`Error deleting data from ${table}: ${error.message}`,
+				'error'
+			);
 			return false;
 		}
 	}

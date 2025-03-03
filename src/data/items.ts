@@ -1,7 +1,10 @@
 import { ItemRarity, Item, ItemType } from '../logic/item';
+import { ulid } from 'ulid';
+
+const random_id = ulid();
 
 export const healingPotion = new Item(
-	'healingPotion001',
+	random_id,
 	'Healing Potion',
 	ItemType.CONSUMABLE,
 	'Restores 50 HP.',
@@ -11,7 +14,7 @@ export const healingPotion = new Item(
 );
 
 export const manaPotion = new Item(
-	'manaPotion001',
+	random_id,
 	'Mana Potion',
 	ItemType.CONSUMABLE,
 	'Restores 30 MP.',
@@ -21,7 +24,7 @@ export const manaPotion = new Item(
 );
 
 export const ironSword = new Item(
-	'ironSword001',
+	random_id,
 	'Iron Sword',
 	ItemType.WEAPON,
 	'A basic sword made of iron.',
@@ -31,7 +34,7 @@ export const ironSword = new Item(
 );
 
 export const leatherArmor = new Item(
-	'leatherArmor001',
+	random_id,
 	'Leather Armor',
 	ItemType.ARMOR,
 	'Light armor made from leather.',
@@ -41,7 +44,7 @@ export const leatherArmor = new Item(
 );
 
 export const dragonEgg = new Item(
-	'dragonEgg001',
+	random_id,
 	'Dragon Egg',
 	ItemType.QUEST,
 	'A rare item required to hatch a dragon.',
@@ -51,7 +54,7 @@ export const dragonEgg = new Item(
 );
 
 export const ironOre = new Item(
-	'ironOre001',
+	random_id,
 	'Iron Ore',
 	ItemType.MATERIAL,
 	'Ore extracted from rocks, can be smelted into iron ingots.',
@@ -61,7 +64,7 @@ export const ironOre = new Item(
 );
 
 export const magicHerb = new Item(
-	'magicHerb001',
+	random_id,
 	'Magic Herb',
 	ItemType.MATERIAL,
 	'A magical herb used in potion crafting.',
@@ -71,7 +74,7 @@ export const magicHerb = new Item(
 );
 
 export const goldCoin = new Item(
-	'goldCoin001',
+	random_id,
 	'Gold Coin',
 	ItemType.MATERIAL,
 	'A coin made of gold, used for trading.',
@@ -81,7 +84,7 @@ export const goldCoin = new Item(
 );
 
 export const ancientScroll = new Item(
-	'ancientScroll001',
+	random_id,
 	'Ancient Scroll',
 	ItemType.QUEST,
 	'An ancient scroll containing mysterious knowledge.',
