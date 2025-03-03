@@ -5,8 +5,7 @@
 	"scripts": {
 		"dev": "bun --hot run ./src/main.ts",
 		"dev:cook": "bun cook && bun run ./target/main.js",
-		"cook": "bun build --outdir=target --target=node --minify ./src/main.ts",
-		"start:prod": "bun cook && node target/main.js"
+		"cook": "bun build --outdir=target --target=node --minify ./src/main.ts"
 	},
 	"author": "prodbyeagle",
 	"license": "MIT",
