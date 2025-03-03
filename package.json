@@ -1,20 +1,22 @@
 {
 	"name": "chillyrng-v2",
+	"description": "Rewrite of my First Coding Project. An Discord Bot.",
 	"private": true,
 	"scripts": {
-		"dev": "tsc && nodemon dist/main.js",
-		"build": "tsc",
-		"start:prod": "pnpm build && node dist/main.js"
+		"dev": "bun --hot run ./src/main.ts",
+		"dev:cook": "bun cook && bun run ./target/main.js",
+		"cook": "bun build --outdir=target --target=node --minify ./src/main.ts",
+		"start:prod": "bun cook && node target/main.js"
 	},
 	"author": "prodbyeagle",
-	"license": "ISC",
+	"license": "MIT",
 	"dependencies": {
-		"@supabase/supabase-js": "^2.49.1",
+		"@supabase/supabase-js": "latest",
 		"discord.js": "latest",
-		"dotenv": "latest"
+		"dotenv": "latest",
+		"ulid": "latest"
 	},
 	"devDependencies": {
-		"nodemon": "latest",
 		"typescript": "latest"
 	}
 }
