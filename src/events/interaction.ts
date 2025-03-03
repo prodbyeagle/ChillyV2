@@ -29,7 +29,7 @@ export const interactionCreateEvent = (client: ChillyRPGClient) => {
 			);
 			const errorMessage = {
 				content: 'There was an error executing this command!',
-				flags: 'Ephemeral',
+				ephemeral: true,
 			};
 			if (interaction.replied || interaction.deferred) {
 				await interaction.followUp(errorMessage);
