@@ -7,6 +7,25 @@ import { ChillyRPGClient } from '../client';
  */
 export const interactionCreateEvent = (client: ChillyRPGClient) => {
 	client.on(Events.InteractionCreate, async (interaction) => {
+		if (interaction.isAutocomplete()) {
+			const command = client.commands.get(interaction.commandName);
+			if (command?.autocomplete) {
+				try {
+					await command.autocomplete(interaction);
+					logMessage(
+						`Successfully handled autocomplete for ${interaction.commandName}`,
+						'info'
+					);
+				} catch (error) {
+					logMessage(
+						`Error handling autocomplete for ${interaction.commandName}: ${error}`,
+						'error'
+					);
+				}
+			}
+			return;
+		}
+
 		if (!interaction.isChatInputCommand()) return;
 
 		const command = client.commands.get(interaction.commandName);

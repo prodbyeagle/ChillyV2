@@ -4,6 +4,7 @@ import { ChillyRPGClient } from '../client';
 import { startCommand } from '../commands/start';
 import { inventoryCommand } from '../commands/inventory';
 import { giveItemCommand } from '../commands/admin/giveItem';
+import { profileCommand } from '../commands/profile';
 
 /**
  * Logs the provided message with a timestamp.
@@ -25,19 +26,12 @@ export const readyEvent = (client: ChillyRPGClient) => {
 			commands.set(startCommand.name, startCommand);
 			commands.set(inventoryCommand.name, inventoryCommand);
 			commands.set(giveItemCommand.name, giveItemCommand);
+			commands.set(profileCommand.name, profileCommand);
 
 			client.commands.set(startCommand.name, startCommand);
 			client.commands.set(inventoryCommand.name, inventoryCommand);
 			client.commands.set(giveItemCommand.name, giveItemCommand);
-
-			client.on(Events.InteractionCreate, async (interaction) => {
-				if (interaction.isAutocomplete()) {
-					const command = commands.get(interaction.commandName);
-					if (command?.autocomplete) {
-						await command.autocomplete(interaction);
-					}
-				}
-			});
+			client.commands.set(profileCommand.name, profileCommand);
 
 			try {
 				logMessage(
