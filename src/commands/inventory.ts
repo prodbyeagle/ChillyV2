@@ -15,7 +15,6 @@ export const inventoryCommand: Command = {
 	execute: async (interaction: CommandInteraction) => {
 		const playerName = interaction.user.username;
 		const playerData = await api.getInventory(playerName);
-		console.log('Fetched Player Data:', playerData);
 
 		if (!playerData) {
 			await interaction.reply({
@@ -40,10 +39,11 @@ export const inventoryCommand: Command = {
 		const embed = new EmbedBuilder()
 			.setTitle(`📦 ${playerName}'s Inventory`)
 			.setDescription('Here are the items you have collected:')
+			.setTimestamp()
 			.setColor(0x0099ff)
 			.setFooter({ text: '🦅 prodbyeagle' });
 
-		for (const [itemId, data] of Object.entries(inventory) as [
+		for (const [, data] of Object.entries(inventory) as [
 			string,
 			InventoryItem
 		][]) {

@@ -15,6 +15,7 @@ export enum ItemRarity {
 	LEGENDARY = 'legendary',
 }
 
+//? can be rewritten, be warned
 export class Item {
 	id: string;
 	name: string;

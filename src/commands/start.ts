@@ -9,7 +9,7 @@ import { logMessage } from '../events/ready';
 
 export const startCommand: Command = {
 	name: 'start',
-	description: 'Starts a new Character.',
+	description: '✅ Starts a new Character.',
 	data: new SlashCommandBuilder()
 		.setName('start')
 		.setDescription('Starts a new character.'),

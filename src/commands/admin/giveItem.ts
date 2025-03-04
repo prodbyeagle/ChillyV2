@@ -11,7 +11,7 @@ import { api } from '../../config/api';
 
 export const giveItemCommand: Command = {
 	name: 'giveitem',
-	description: 'Give an item to a player.',
+	description: '🐞 Give an item to a player.',
 	//! cant remove error. but it works tho
 	// @ts-ignore
 	data: new SlashCommandBuilder()
