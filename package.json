@@ -3,7 +3,7 @@
 	"description": "Rewrite of my First Coding Project. An Discord Bot.",
 	"private": true,
 	"scripts": {
-		"dev": "bun --hot run ./src/main.ts",
+		"dev": "bun run ./src/main.ts",
 		"dev:cook": "bun cook && bun run ./target/main.js",
 		"cook": "bun build --outdir=target --target=node --minify ./src/main.ts"
 	},
