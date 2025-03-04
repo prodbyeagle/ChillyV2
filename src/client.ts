@@ -1,4 +1,4 @@
-import { Client, Collection } from 'discord.js';
+import { Client, Collection, GatewayIntentBits } from 'discord.js';
 import { Command } from './types';
 
 export class ChillyRPGClient extends Client {
@@ -7,10 +7,11 @@ export class ChillyRPGClient extends Client {
 	constructor() {
 		super({
 			intents: [
-				'Guilds',
-				'GuildMessages',
-				'DirectMessages',
-				'MessageContent',
+				GatewayIntentBits.Guilds,
+				GatewayIntentBits.GuildMessages,
+				GatewayIntentBits.DirectMessages,
+				GatewayIntentBits.MessageContent,
+				GatewayIntentBits.GuildMembers,
 			],
 		});
 	}

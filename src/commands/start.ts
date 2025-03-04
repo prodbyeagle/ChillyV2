@@ -9,7 +9,7 @@ import { logMessage } from '../events/ready';
 
 export const startCommand: Command = {
 	name: 'start',
-	description: 'Starts a new Character.',
+	description: '✅ Starts a new Character.',
 	data: new SlashCommandBuilder()
 		.setName('start')
 		.setDescription('Starts a new character.'),
@@ -43,6 +43,14 @@ export const startCommand: Command = {
 				xp: 0,
 				gold: 100,
 				inventory: {},
+				gameData: {
+					clicker: {
+						clicks: 0,
+						lastClickTimestamp: 0,
+						streak: 0,
+						multiplier: 1,
+					},
+				},
 			};
 
 			const success = await api.createPlayer(newPlayer);

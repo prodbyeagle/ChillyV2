@@ -17,6 +17,15 @@ export interface Command {
 	execute: (interaction: CommandInteraction) => Promise<void>;
 }
 
+export interface GameData {
+	clicker: {
+		clicks: number;
+		lastClickTimestamp?: number;
+		streak?: number;
+		multiplier?: number;
+	};
+}
+
 export interface PlayerData {
 	id: string;
 	name: string;
@@ -25,4 +34,5 @@ export interface PlayerData {
 	xp: number;
 	gold: number;
 	inventory: Record<string, InventoryItem>;
+	gameData: GameData;
 }
