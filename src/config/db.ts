@@ -2,14 +2,27 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { config } from './config';
 import { logMessage } from '../events/ready';
 
+/**
+ * A database wrapper for performing basic CRUD operations using Supabase.
+ */
 export class Database {
 	private supabase: SupabaseClient;
 
+	/**
+	 * Initializes the Supabase client with the provided configuration.
+	 */
 	constructor() {
 		this.supabase = createClient(config.supabaseUrl, config.supabaseKey);
 	}
 
-	async get<T>(
+	/**
+	 * Retrieves data from the specified table with optional filters.
+	 *
+	 * @param table - The name of the table from which to retrieve data.
+	 * @param filters - Optional key-value pairs to filter the results.
+	 * @returns A promise that resolves to an array of type T if successful, or null if an error occurs.
+	 */
+	async GET<T>(
 		table: string,
 		filters?: Record<string, any>
 	): Promise<T[] | null> {
@@ -29,7 +42,10 @@ export class Database {
 			}
 
 			const { data, error } = await query;
-			if (error) throw error;
+			if (error) {
+				logMessage(`Error details: ${JSON.stringify(error)}`, 'error');
+				throw error;
+			}
 
 			logMessage(
 				`Successfully fetched data from table: ${table}`,
@@ -46,7 +62,14 @@ export class Database {
 		}
 	}
 
-	async post<T>(table: string, data: T): Promise<boolean> {
+	/**
+	 * Inserts data into the specified table.
+	 *
+	 * @param table - The name of the table into which to insert data.
+	 * @param data - The data to insert.
+	 * @returns A promise that resolves to true if the insertion was successful, or false otherwise.
+	 */
+	async POST<T>(table: string, data: T): Promise<boolean> {
 		logMessage(`Inserting data into table: ${table}`, 'info');
 		try {
 			const { error } = await this.supabase.from(table).insert(data);
@@ -67,7 +90,15 @@ export class Database {
 		}
 	}
 
-	async patch<T>(
+	/**
+	 * Updates data in the specified table based on given filters.
+	 *
+	 * @param table - The name of the table to update.
+	 * @param filters - Key-value pairs to filter the rows that will be updated.
+	 * @param updates - Partial object containing the updates to apply.
+	 * @returns A promise that resolves to true if the update was successful, or false otherwise.
+	 */
+	async PATCH<T>(
 		table: string,
 		filters: Record<string, any>,
 		updates: Partial<T>
@@ -104,7 +135,14 @@ export class Database {
 		}
 	}
 
-	async delete(
+	/**
+	 * Deletes data from the specified table based on given filters.
+	 *
+	 * @param table - The name of the table from which to delete data.
+	 * @param filters - Key-value pairs to filter the rows that will be deleted.
+	 * @returns A promise that resolves to true if the deletion was successful, or false otherwise.
+	 */
+	async DELETE(
 		table: string,
 		filters: Record<string, any>
 	): Promise<boolean> {
