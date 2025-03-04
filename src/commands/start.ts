@@ -43,6 +43,14 @@ export const startCommand: Command = {
 				xp: 0,
 				gold: 100,
 				inventory: {},
+				gameData: {
+					clicker: {
+						clicks: 0,
+						lastClickTimestamp: 0,
+						streak: 0,
+						multiplier: 1,
+					},
+				},
 			};
 
 			const success = await api.createPlayer(newPlayer);
