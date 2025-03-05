@@ -1,6 +1,6 @@
 import { ColorResolvable } from 'discord.js';
 import * as dotenv from 'dotenv';
-dotenv.config({})
+dotenv.config({});
 
 export const config = {
 	token: process.env.BOT_TOKEN || 'discord_bot_key',
