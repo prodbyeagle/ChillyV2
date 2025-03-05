@@ -1,15 +1,32 @@
 import { config } from './config/config';
 import { logMessage, readyEvent } from './events/ready';
-import { ChillyRPGClient } from './client';
+import { ChillyClient } from './client';
 import { interactionCreateEvent } from './events/interaction';
-
+import { messageEvent } from './events/message';
 require('dotenv').config();
 
-const client = new ChillyRPGClient();
+/**
+ * Initializes the bot client, event listeners, and handles bot login.
+ */
+const initializeBot = async () => {
+	try {
+		const client = new ChillyClient();
 
-readyEvent(client);
-interactionCreateEvent(client);
+		readyEvent(client);
+		interactionCreateEvent(client);
+		messageEvent(client);
 
-client.login(config.token).catch((err) => {
-	logMessage(`Error logging in: ${err}`, 'error');
-});
+		await client.login(config.token);
+
+		logMessage('Bot successfully logged in and ready!', 'info');
+	} catch (err) {
+		logMessage(
+			`Error during bot initialization: ${
+				err instanceof Error ? err.message : err
+			}`,
+			'error'
+		);
+	}
+};
+
+initializeBot();

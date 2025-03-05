@@ -1,14 +1,26 @@
 import { Events, MessageFlags } from 'discord.js';
 import { logMessage } from './ready';
-import { ChillyRPGClient } from '../client';
+import { ChillyClient } from '../client';
 
 /**
- * Handles the InteractionCreate event.
+ * Handles the `InteractionCreate` event.
+ * This event is triggered when an interaction (such as a command or autocomplete) is created.
+ *
+ * It processes both autocomplete interactions and chat input commands,
+ * executing the associated command if available, and handling errors gracefully.
+ *
+ * @param client - The ChillyClient instance that emits this event.
  */
-export const interactionCreateEvent = (client: ChillyRPGClient) => {
+export const interactionCreateEvent = (client: ChillyClient) => {
 	client.on(Events.InteractionCreate, async (interaction) => {
+		if (!interaction) {
+			logMessage('Received an undefined or null interaction.', 'error');
+			return;
+		}
+
 		if (interaction.isAutocomplete()) {
 			const command = client.commands.get(interaction.commandName);
+
 			if (command?.autocomplete) {
 				try {
 					await command.autocomplete(interaction);
@@ -18,7 +30,7 @@ export const interactionCreateEvent = (client: ChillyRPGClient) => {
 					);
 				} catch (error) {
 					logMessage(
-						`Error handling autocomplete for ${interaction.commandName}: ${error}`,
+						`Error handling autocomplete for ${interaction.commandName}: ${error.message}`,
 						'error'
 					);
 				}
@@ -37,13 +49,9 @@ export const interactionCreateEvent = (client: ChillyRPGClient) => {
 
 		try {
 			await command.execute(interaction);
-			logMessage(
-				`Successfully executed command: ${interaction.commandName}`,
-				'info'
-			);
 		} catch (error) {
 			logMessage(
-				`Error executing command ${interaction.commandName}: ${error}`,
+				`Error executing command ${interaction.commandName}: ${error.message}`,
 				'error'
 			);
 
@@ -52,10 +60,17 @@ export const interactionCreateEvent = (client: ChillyRPGClient) => {
 				flags: MessageFlags.Ephemeral as const,
 			};
 
-			if (interaction.replied || interaction.deferred) {
-				await interaction.followUp(errorMessage);
-			} else {
-				await interaction.reply(errorMessage);
+			try {
+				if (interaction.replied || interaction.deferred) {
+					await interaction.followUp(errorMessage);
+				} else {
+					await interaction.reply(errorMessage);
+				}
+			} catch (replyError) {
+				logMessage(
+					`Error sending error message for ${interaction.commandName}: ${replyError.message}`,
+					'error'
+				);
 			}
 		}
 	});

@@ -26,12 +26,6 @@ export class Database {
 		table: string,
 		filters?: Record<string, any>
 	): Promise<T[] | null> {
-		logMessage(
-			`Fetching data from table: ${table} with filters: ${JSON.stringify(
-				filters
-			)}`,
-			'info'
-		);
 		try {
 			let query = this.supabase.from(table).select('*');
 
@@ -47,10 +41,6 @@ export class Database {
 				throw error;
 			}
 
-			logMessage(
-				`Successfully fetched data from table: ${table}`,
-				'info'
-			);
 			return data;
 		} catch (err) {
 			const error = err as Error;

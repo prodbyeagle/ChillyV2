@@ -1,60 +1,49 @@
 import { Events, REST, Routes } from 'discord.js';
 import { config } from '../config/config';
-import { ChillyRPGClient } from '../client';
-import { startCommand } from '../commands/start';
-import { inventoryCommand } from '../commands/inventory';
-import { giveItemCommand } from '../commands/admin/giveItem';
-import { profileCommand } from '../commands/profile';
-import { clickerCommand } from '../commands/games/clicker';
+import { ChillyClient } from '../client';
+import { profileCommand } from '../commands/user/profile';
 
 /**
- * Logs the provided message with a timestamp.
+ * Logs the provided message with color-coded log levels.
+ *
+ * If `level` is 'info' and debugging is disabled, the message is not logged.
+ *
+ * @param message - The message to log.
+ * @param level - The log level: 'info', 'warn', or 'error'.
  */
 export const logMessage = (
 	message: string,
 	level: 'info' | 'warn' | 'error' = 'info'
 ) => {
+	if (level === 'info' && !config.debug) return;
 	console[level](`${level.toUpperCase()}: ${message}`);
 };
 
-export const readyEvent = (client: ChillyRPGClient) => {
+/**
+ * Handles the `ClientReady` event.
+ * This event is triggered when the bot has successfully logged in and is ready to use.
+ * It registers all the bot commands with Discord and logs the status.
+ *
+ * @param client - The ChillyClient instance that emits this event.
+ */
+export const readyEvent = (client: ChillyClient) => {
 	client.on(Events.ClientReady, async () => {
 		if (client.user) {
-			logMessage(`Logged in as ${client.user.tag}`, 'info');
 			const rest = new REST({ version: '10' }).setToken(config.token);
 
 			const commands = new Map();
-			commands.set(startCommand.name, startCommand);
-			commands.set(inventoryCommand.name, inventoryCommand);
-			commands.set(giveItemCommand.name, giveItemCommand);
 			commands.set(profileCommand.name, profileCommand);
-			commands.set(clickerCommand.name, clickerCommand)
-
-			client.commands.set(startCommand.name, startCommand);
-			client.commands.set(inventoryCommand.name, inventoryCommand);
-			client.commands.set(giveItemCommand.name, giveItemCommand);
 			client.commands.set(profileCommand.name, profileCommand);
-			client.commands.set(clickerCommand.name, clickerCommand);
 
 			try {
-				logMessage(
-					'Started refreshing application (/) commands.',
-					'info'
-				);
-
 				await rest.put(Routes.applicationCommands(client.user.id), {
 					body: Array.from(commands.values()).map((command) =>
 						command.data.toJSON()
 					),
 				});
-
-				logMessage(
-					'Successfully reloaded application (/) commands.',
-					'info'
-				);
 			} catch (error) {
 				logMessage(
-					`Error while refreshing commands: ${error}`,
+					`Error while refreshing commands: ${error.message}`,
 					'error'
 				);
 			}
