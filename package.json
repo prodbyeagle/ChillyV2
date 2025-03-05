@@ -4,10 +4,10 @@
 	"private": true,
 	"scripts": {
 		"dev": "bun --bun run ./src/main.ts",
-		"cooked": "bun --hot run ./src/main.ts",
 		"dev:cook": "bun cook && bun run ./target/main.js",
 		"cook": "bun build --outdir=target --target=bun --minify ./src/main.ts",
-		"lint": "eslint --ext .ts,.js ./src"
+		"oven": "eslint --ext .ts,.js ./src",
+		"bake": "bunx prettier --check --write './src/**/*.{ts,js,json,md}'"
 	},
 	"author": "prodbyeagle",
 	"license": "MIT",

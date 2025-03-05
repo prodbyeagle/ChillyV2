@@ -28,9 +28,8 @@ export const profileCommand: ICommand = {
 		const playerName = targetUser.username;
 
 		try {
-			const playerData: IPlayerData | null = await Api.getPlayer(
-				playerName
-			);
+			const playerData: IPlayerData | null =
+				await Api.getPlayer(playerName);
 
 			if (!playerData) {
 				const noProfileEmbed = new EmbedBuilder()
@@ -98,7 +97,7 @@ export const profileCommand: ICommand = {
 						value: playerData.isbanned
 							? `✅ Yes (Reason: ${
 									playerData.banreason || 'Unknown'
-							  })`
+								})`
 							: '❌ No',
 						inline: false,
 					}

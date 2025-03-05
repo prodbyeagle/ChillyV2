@@ -38,9 +38,8 @@ export const Api = {
 				logMessage(`No player found for ID: ${userid}`, 'info');
 				return null;
 			}
-			
-			return data[0];
 
+			return data[0];
 		} catch (error) {
 			logMessage(
 				`Error fetching player data for ${userid}: ${JSON.stringify(
