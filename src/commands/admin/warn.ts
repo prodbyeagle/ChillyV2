@@ -85,7 +85,6 @@ export const warnCommand: ICommand = {
 				return;
 			}
 
-
 			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			const { id, ...updatedData } = playerData;
 
