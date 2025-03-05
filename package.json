@@ -7,7 +7,7 @@
 		"cooked": "bun --hot run ./src/main.ts",
 		"dev:cook": "bun cook && bun run ./target/main.js",
 		"cook": "bun build --outdir=target --target=bun --minify ./src/main.ts",
-		"lint": ""
+		"lint": "eslint --ext .ts,.js ./src"
 	},
 	"author": "prodbyeagle",
 	"license": "MIT",
