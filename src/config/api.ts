@@ -1,10 +1,10 @@
 import { Database } from './db';
-import type { IPlayerData } from '../types';
-import { logMessage } from '../events/ready';
+import type { IEventData, IPlayerData } from 'types';
+import { logMessage } from 'events/ready';
 
 const db = new Database();
 
-export const api = {
+export const Api = {
 	/**
 	 * Fetches a player's data by username.
 	 * @param username - The username of the player.
@@ -22,6 +22,18 @@ export const api = {
 				'error'
 			);
 			return null;
+		}
+	},
+
+	async getAllPlayers(): Promise<IPlayerData[]> {
+		try {
+			return await db.GET<IPlayerData>('players', {});
+		} catch (error) {
+			logMessage(
+				`Error fetching all players: ${JSON.stringify(error)}`,
+				'error'
+			);
+			return [];
 		}
 	},
 
@@ -102,6 +114,57 @@ export const api = {
 				`Error deleting player ${username}: ${JSON.stringify(error)}`,
 				'error'
 			);
+			return false;
+		}
+	},
+
+	async getCurrentEvent(): Promise<IEventData | null> {
+		try {
+			const data = await db.GET<IEventData>('events', { active: true });
+			return data && data.length > 0 ? data[0] : null;
+		} catch (error) {
+			logMessage(
+				`Error fetching current event: ${JSON.stringify(error)}`,
+				'error'
+			);
+			return null;
+		}
+	},
+
+	async createEvent(eventData: IEventData): Promise<boolean> {
+		try {
+			const currentEvent = await this.getCurrentEvent();
+			if (currentEvent) {
+				logMessage(
+					'An event is already active. Please end the current event before creating a new one.',
+					'warn'
+				);
+				return false;
+			}
+			return await db.POST('events', { ...eventData, active: true });
+		} catch (error) {
+			logMessage(
+				`Error creating event: ${JSON.stringify(error)}`,
+				'error'
+			);
+			return false;
+		}
+	},
+
+	async endEvent(): Promise<boolean> {
+		try {
+			const currentEvent = await this.getCurrentEvent();
+			if (!currentEvent) {
+				logMessage('No active event found to end.', 'warn');
+				return false;
+			}
+			return await db.PATCH(
+				'events',
+				{ active: true },
+				{ active: false }
+			);
+		} catch (error) {
+			logMessage(`Error ending event: ${JSON.stringify(error)}`, 'error');
 			return false;
 		}
 	},

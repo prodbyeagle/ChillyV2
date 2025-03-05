@@ -3,18 +3,18 @@
 	"description": "Rewrite of my First Coding Project. An Discord Bot.",
 	"private": true,
 	"scripts": {
-		"dev": "bun run ./src/main.ts",
+		"dev": "bun --bun run ./src/main.ts",
 		"cooked": "bun --hot run ./src/main.ts",
 		"dev:cook": "bun cook && bun run ./target/main.js",
-		"cook": "bun build --outdir=target --target=node --minify ./src/main.ts"
+		"cook": "bun build --outdir=target --target=bun --minify ./src/main.ts"
 	},
 	"author": "prodbyeagle",
 	"license": "MIT",
 	"devDependencies": {
-		"typescript": "latest",
-		"@supabase/supabase-js": "latest",
-		"discord.js": "latest",
-		"dotenv": "latest",
-		"ulid": "latest"
+		"typescript": "^5.8.2",
+		"@supabase/supabase-js": "^2.49.1",
+		"discord.js": "^14.18.0",
+		"dotenv": "^16.4.7",
+		"ulid": "^2.3.0"
 	}
 }
