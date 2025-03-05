@@ -4,7 +4,7 @@ import {
 	EmbedBuilder,
 } from 'discord.js';
 import { ICommand, IPlayerData } from 'types';
-import { api } from 'config/api';
+import { Api } from 'config/api';
 
 export const profileCommand: ICommand = {
 	name: 'profile',
@@ -22,7 +22,7 @@ export const profileCommand: ICommand = {
 		const targetUser =
 			interaction.options.getUser('username') || interaction.user;
 		const playerName = targetUser.username;
-		const playerData: IPlayerData | null = await api.getPlayer(playerName);
+		const playerData: IPlayerData | null = await Api.getPlayer(playerName);
 
 		const embed = new EmbedBuilder()
 			.setTitle(`📜 ${playerName}'s Profile`)

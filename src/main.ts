@@ -29,5 +29,4 @@ const initializeBot = async () => {
 	}
 };
 
-// Start the bot
 initializeBot();
