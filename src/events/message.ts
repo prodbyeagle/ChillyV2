@@ -1,6 +1,6 @@
 import { Events, Message } from 'discord.js';
 import { ChillyClient } from '../client';
-import { logMessage } from './ready';
+import { logMessage } from 'lib/utils';
 import { Api } from '../config/api';
 import type { IPlayerData } from '../types';
 

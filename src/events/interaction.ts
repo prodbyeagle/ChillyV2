@@ -1,5 +1,5 @@
 import { Events, MessageFlags } from 'discord.js';
-import { logMessage } from './ready';
+import { logMessage } from 'lib/utils';
 import { ChillyClient } from 'client';
 
 /**
