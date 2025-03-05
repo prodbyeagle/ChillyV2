@@ -18,6 +18,8 @@ export interface ICommand {
 }
 
 export interface IPlayerData {
+	//? id is from supabase
+	id?: number;
 	userid: string;
 	username: string;
 	currentlevel: number;

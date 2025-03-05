@@ -1,43 +1,27 @@
-import { Events, REST, Routes } from 'discord.js';
-import { config } from 'config/config';
+import { Events } from 'discord.js';
 import { ChillyClient } from 'client';
-import { profileCommand } from 'commands/user/profile';
-import { eventCommand } from 'commands/event';
-import { robCommand } from 'commands/games/rob';
-import { leaderboardCommand } from 'commands/user/leaderboard';
 import { logMessage } from 'lib/utils';
+import { initializeCommands } from './initializeCommands';
 
 /**
  * Handles the `ClientReady` event.
  * This event is triggered when the bot has successfully logged in and is ready to use.
- * It registers all the bot commands with Discord and logs the status.
+ * It initializes the bot commands and logs the status.
  *
  * @param client - The ChillyClient instance that emits this event.
  */
 export const readyEvent = (client: ChillyClient) => {
 	client.on(Events.ClientReady, async () => {
 		if (client.user) {
-			const rest = new REST({ version: '10' }).setToken(config.token);
-
-			const commands = new Map();
-			commands.set(profileCommand.name, profileCommand);
-			commands.set(eventCommand.name, eventCommand);
-			commands.set(robCommand.name, robCommand);
-			commands.set(leaderboardCommand.name, leaderboardCommand);
-			client.commands.set(profileCommand.name, profileCommand);
-			client.commands.set(eventCommand.name, eventCommand);
-			client.commands.set(robCommand.name, robCommand);
-			client.commands.set(leaderboardCommand.name, leaderboardCommand);
-
 			try {
-				await rest.put(Routes.applicationCommands(client.user.id), {
-					body: Array.from(commands.values()).map((command) =>
-						command.data.toJSON()
-					),
-				});
+				initializeCommands(client);
+				logMessage(
+					'Bot is ready and commands are initialized.',
+					'info'
+				);
 			} catch (error) {
 				logMessage(
-					`Error while refreshing commands: ${error.message}`,
+					`Error during bot initialization: ${error.message}`,
 					'error'
 				);
 			}

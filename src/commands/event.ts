@@ -12,10 +12,10 @@ import { branding } from 'config/config';
 
 export const eventCommand: ICommand = {
 	name: 'event',
-	description: '🎉 Manage in-game events like XP and money boosts.',
+	description: 'Manage in-game events like XP and money boosts.',
 	data: new SlashCommandBuilder()
 		.setName('event')
-		.setDescription('🎉 Manage in-game events like XP and money boosts.')
+		.setDescription('Manage in-game events like XP and money boosts.')
 		.addSubcommand((subcommand) =>
 			subcommand
 				.setName('create')
