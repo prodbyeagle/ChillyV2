@@ -26,7 +26,7 @@ jobs:
       run: bun i
 
     - name: Lint code with ESLint
-      run: bun lint
+      run: bunx eslint --ext .ts,.js ./src
 
     - name: Check formatting with Prettier
       run: bunx prettier --check "./src/**/*.{ts,js,json,md}"
