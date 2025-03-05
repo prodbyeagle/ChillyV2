@@ -33,7 +33,7 @@ export const profileCommand: ICommand = {
 
 			if (!playerData) {
 				const noProfileEmbed = new EmbedBuilder()
-					.setColor(branding.ErrorColor)
+					.setColor(branding.AccentColor)
 					.setTitle('❌ Profile Not Found')
 					.setDescription(`No profile found for **${playerName}**.`)
 					.setTimestamp()
@@ -47,7 +47,7 @@ export const profileCommand: ICommand = {
 			}
 
 			const embedColor = playerData.isbanned
-				? branding.ErrorColor
+				? branding.AccentColor
 				: branding.SuccessColor;
 
 			const embed = new EmbedBuilder()
@@ -110,7 +110,7 @@ export const profileCommand: ICommand = {
 			console.error(`Error fetching profile for ${playerName}:`, error);
 
 			const errorEmbed = new EmbedBuilder()
-				.setColor(branding.ErrorColor)
+				.setColor(branding.AccentColor)
 				.setTitle('❌ Error')
 				.setDescription(
 					'An error occurred while fetching the profile. Please try again later.'

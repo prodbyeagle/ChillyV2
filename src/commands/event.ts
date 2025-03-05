@@ -62,7 +62,7 @@ export const eventCommand: ICommand = {
 			)
 		) {
 			const embed = new EmbedBuilder()
-				.setColor(branding.ErrorColor)
+				.setColor(branding.AccentColor)
 				.setTitle('❌ Permission Denied')
 				.setDescription(
 					'You need administrator permissions to run this command.'
