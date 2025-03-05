@@ -1,38 +1,30 @@
 import {
 	AutocompleteInteraction,
-	CommandInteraction,
+	ChatInputCommandInteraction,
 	SlashCommandBuilder,
+	SlashCommandOptionsOnlyBuilder,
 } from 'discord.js';
-import { Item } from '../logic/item';
 
-export interface InventoryItem {
-	item: Item;
-}
-
-export interface Command {
+export interface ICommand {
 	name: string;
 	description: string;
-	data: SlashCommandBuilder;
+	data: SlashCommandBuilder | SlashCommandOptionsOnlyBuilder;
 	autocomplete?: (interaction: AutocompleteInteraction) => Promise<void>;
-	execute: (interaction: CommandInteraction) => Promise<void>;
+	execute: (interaction: ChatInputCommandInteraction) => Promise<void>;
 }
 
-export interface GameData {
-	clicker: {
-		clicks: number;
-		lastClickTimestamp?: number;
-		streak?: number;
-		multiplier?: number;
-	};
-}
-
-export interface PlayerData {
-	id: string;
-	name: string;
-	gameStarted: boolean;
-	level: number;
-	xp: number;
-	gold: number;
-	inventory: Record<string, InventoryItem>;
-	gameData: GameData;
+export interface IPlayerData {
+	userid: string;
+	username: string;
+	currentlevel: number;
+	experiencepoints: number;
+	isbanned: boolean;
+	banreason: string;
+	warningcount: number;
+	triviapoints: number;
+	messagessent: number;
+	levelupnotification: boolean;
+	achievementnotification: boolean;
+	robberyenabled: boolean;
+	balance: number;
 }

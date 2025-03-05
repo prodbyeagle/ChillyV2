@@ -1,8 +1,12 @@
 import { Client, Collection, GatewayIntentBits } from 'discord.js';
-import { Command } from './types';
+import type { ICommand } from './types';
 
-export class ChillyRPGClient extends Client {
-	public commands: Collection<string, Command> = new Collection();
+/**
+ * Custom Discord client class for the ChillyBot.
+ * Extends the base `Client` class from discord.js and adds additional functionality.
+ */
+export class ChillyClient extends Client {
+	public commands: Collection<string, ICommand> = new Collection();
 
 	constructor() {
 		super({
