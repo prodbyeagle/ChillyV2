@@ -2,6 +2,7 @@ import { Events, REST, Routes } from 'discord.js';
 import { config } from 'config/config';
 import { ChillyClient } from 'client';
 import { profileCommand } from 'commands/user/profile';
+import { eventCommand } from 'commands/event';
 
 /**
  * Logs the provided message with color-coded log levels.
@@ -33,7 +34,9 @@ export const readyEvent = (client: ChillyClient) => {
 
 			const commands = new Map();
 			commands.set(profileCommand.name, profileCommand);
+			commands.set(eventCommand.name, eventCommand);
 			client.commands.set(profileCommand.name, profileCommand);
+			client.commands.set(eventCommand.name, eventCommand);
 
 			try {
 				await rest.put(Routes.applicationCommands(client.user.id), {

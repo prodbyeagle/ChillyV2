@@ -3,12 +3,16 @@ import {
 	ChatInputCommandInteraction,
 	SlashCommandBuilder,
 	SlashCommandOptionsOnlyBuilder,
+	SlashCommandSubcommandsOnlyBuilder,
 } from 'discord.js';
 
 export interface ICommand {
 	name: string;
 	description: string;
-	data: SlashCommandBuilder | SlashCommandOptionsOnlyBuilder;
+	data:
+		| SlashCommandBuilder
+		| SlashCommandSubcommandsOnlyBuilder
+		| SlashCommandOptionsOnlyBuilder;
 	autocomplete?: (interaction: AutocompleteInteraction) => Promise<void>;
 	execute: (interaction: ChatInputCommandInteraction) => Promise<void>;
 }
@@ -27,4 +31,11 @@ export interface IPlayerData {
 	achievementnotification: boolean;
 	robberyenabled: boolean;
 	balance: number;
+}
+
+export interface IEventData {
+	type: 'xp' | 'money';
+	multiplier: number;
+	duration: string;
+	timestamp: string;
 }
