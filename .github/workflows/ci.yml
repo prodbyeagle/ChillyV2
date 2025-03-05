@@ -30,3 +30,6 @@ jobs:
 
     - name: Check formatting with Prettier
       run: bunx prettier --check "./src/**/*.{ts,js,json,md}"
+
+    - name: Ensure code formatting with Prettier
+      run: npx prettier --write "./src/**/*.{ts,js,json,md}"
