@@ -1,6 +1,6 @@
 import { Events, MessageFlags } from 'discord.js';
 import { logMessage } from './ready';
-import { ChillyClient } from '../client';
+import { ChillyClient } from 'client';
 
 /**
  * Handles the `InteractionCreate` event.

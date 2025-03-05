@@ -1,7 +1,7 @@
 import { Events, REST, Routes } from 'discord.js';
-import { config } from '../config/config';
-import { ChillyClient } from '../client';
-import { profileCommand } from '../commands/user/profile';
+import { config } from 'config/config';
+import { ChillyClient } from 'client';
+import { profileCommand } from 'commands/user/profile';
 
 /**
  * Logs the provided message with color-coded log levels.
@@ -15,7 +15,7 @@ export const logMessage = (
 	message: string,
 	level: 'info' | 'warn' | 'error' = 'info'
 ) => {
-	if (level === 'info' && !config.debug) return;
+	if (level === 'info' && !config.dev) return;
 	console[level](`${level.toUpperCase()}: ${message}`);
 };
 

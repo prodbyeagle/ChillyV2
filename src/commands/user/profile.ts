@@ -3,9 +3,8 @@ import {
 	SlashCommandBuilder,
 	EmbedBuilder,
 } from 'discord.js';
-import { ICommand, IPlayerData } from '../../types';
-import { api } from '../../config/api';
-import { branding } from '../../config/config';
+import { ICommand, IPlayerData } from 'types';
+import { api } from 'config/api';
 
 export const profileCommand: ICommand = {
 	name: 'profile',

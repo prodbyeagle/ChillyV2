@@ -1,4 +1,14 @@
 {
+	"compilerOptions": {
+		"baseUrl": "./src",
+		"paths": {
+			"@config/*": ["../config/*"],
+			"@api/*": ["../api/*"],
+			"@types/*": ["../types/*"],
+			"@client/*": ["../client/*"],
+			"@events/*": ["../events/*"]
+		}
+	},
 	"include": ["src/**/*.ts"],
 	"exclude": ["node_modules"]
 }

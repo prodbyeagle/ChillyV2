@@ -1,8 +1,8 @@
-import { config } from './config/config';
-import { logMessage, readyEvent } from './events/ready';
-import { ChillyClient } from './client';
-import { interactionCreateEvent } from './events/interaction';
-import { messageEvent } from './events/message';
+import { config } from 'config/config';
+import { logMessage, readyEvent } from 'events/ready';
+import { ChillyClient } from 'client';
+import { interactionCreateEvent } from 'events/interaction';
+import { messageEvent } from 'events/message';
 require('dotenv').config();
 
 /**
@@ -29,4 +29,5 @@ const initializeBot = async () => {
 	}
 };
 
+// Start the bot
 initializeBot();
