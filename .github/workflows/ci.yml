@@ -29,7 +29,4 @@ jobs:
       run: bunx eslint --ext .ts,.js ./src
 
     - name: Check formatting with Prettier
-      run: bunx prettier --check "./src/**/*.{ts,js,json,md}"
-
-    - name: Ensure code formatting with Prettier
-      run: bunx prettier --write "./src/**/*.{ts,js,json,md}"
+      run: bunx prettier --check --write "./src/**/*.{ts,js,json,md}"
