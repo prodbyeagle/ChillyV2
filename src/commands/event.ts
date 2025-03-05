@@ -8,6 +8,7 @@ import {
 } from 'discord.js';
 import type { ICommand } from 'types';
 import { Api } from 'config/api';
+import { branding } from 'config/config';
 
 export const eventCommand: ICommand = {
 	name: 'event',
@@ -61,7 +62,7 @@ export const eventCommand: ICommand = {
 			)
 		) {
 			const embed = new EmbedBuilder()
-				.setColor('#e74c3c')
+				.setColor(branding.ErrorColor)
 				.setTitle('❌ Permission Denied')
 				.setDescription(
 					'You need administrator permissions to run this command.'
@@ -85,9 +86,11 @@ export const eventCommand: ICommand = {
 				type: eventType,
 				multiplier,
 				duration,
-        timestamp: Date.now().toString()
+				timestamp: Date.now().toString(),
 			});
-			const embed = new EmbedBuilder().setColor('#ee2737').setTimestamp();
+			const embed = new EmbedBuilder()
+				.setColor(branding.AccentColor)
+				.setTimestamp();
 
 			if (success) {
 				embed
@@ -109,7 +112,9 @@ export const eventCommand: ICommand = {
 			});
 		} else if (subcommand === 'end') {
 			const success = await Api.endEvent();
-			const embed = new EmbedBuilder().setColor('#ee2737').setTimestamp();
+			const embed = new EmbedBuilder()
+				.setColor(branding.AccentColor)
+				.setTimestamp();
 
 			if (success) {
 				embed
@@ -127,7 +132,9 @@ export const eventCommand: ICommand = {
 			});
 		} else if (subcommand === 'current') {
 			const event = await Api.getCurrentEvent();
-			const embed = new EmbedBuilder().setColor('#ee2737').setTimestamp();
+			const embed = new EmbedBuilder()
+				.setColor(branding.AccentColor)
+				.setTimestamp();
 
 			if (event) {
 				embed

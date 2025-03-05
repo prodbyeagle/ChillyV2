@@ -1,3 +1,5 @@
+import { ColorResolvable } from "discord.js";
+
 require('dotenv').config();
 
 export const config = {
@@ -8,7 +10,7 @@ export const config = {
 };
 
 //? all colors for embeds.
-export const branding = {
+export const branding: Record<string, ColorResolvable> = {
 	AccentColor: '#ee2737',
 	MutedAccentColor: '#b22222',
 	SuccessColor: '#2ecc71',
