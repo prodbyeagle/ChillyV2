@@ -156,7 +156,7 @@ export const robCommand: ICommand = {
 		);
 		const xpGain = Math.floor(stolenAmount * 0.05);
 
-		let embed = new EmbedBuilder().setTimestamp();
+		const embed = new EmbedBuilder().setTimestamp();
 
 		if (jackpotChance) {
 			robberData.balance += targetData.balance;

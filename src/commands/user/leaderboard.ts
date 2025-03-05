@@ -100,6 +100,7 @@ export const leaderboardCommand: ICommand = {
 				],
 				flags: MessageFlags.Ephemeral,
 			});
+			console.log(error);
 		}
 	},
 };

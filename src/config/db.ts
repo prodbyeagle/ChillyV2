@@ -1,6 +1,6 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { config } from './config';
-import { logMessage } from 'events/ready';
+import { logMessage } from 'lib/utils';
 
 /**
  * A database wrapper for performing basic CRUD operations using Supabase.
@@ -24,7 +24,7 @@ export class Database {
 	 */
 	async GET<T>(
 		table: string,
-		filters?: Record<string, any>
+		filters?: Record<string, unknown>
 	): Promise<T[] | null> {
 		try {
 			let query = this.supabase.from(table).select('*');
@@ -90,7 +90,7 @@ export class Database {
 	 */
 	async PATCH<T>(
 		table: string,
-		filters: Record<string, any>,
+		filters: Record<string, unknown>,
 		updates: Partial<T>
 	): Promise<boolean> {
 		logMessage(
@@ -134,7 +134,7 @@ export class Database {
 	 */
 	async DELETE(
 		table: string,
-		filters: Record<string, any>
+		filters: Record<string, unknown>
 	): Promise<boolean> {
 		logMessage(
 			`Deleting data from table: ${table} with filters: ${JSON.stringify(

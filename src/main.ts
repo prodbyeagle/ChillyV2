@@ -1,9 +1,11 @@
 import { config } from 'config/config';
-import { logMessage, readyEvent } from 'events/ready';
+import { readyEvent } from 'events/ready';
 import { ChillyClient } from 'client';
 import { interactionCreateEvent } from 'events/interaction';
 import { messageEvent } from 'events/message';
-require('dotenv').config();
+import { logMessage } from 'lib/utils';
+import * as dotenv from 'dotenv';
+dotenv.config({})
 
 /**
  * Initializes the bot client, event listeners, and handles bot login.

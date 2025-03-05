@@ -5,22 +5,7 @@ import { profileCommand } from 'commands/user/profile';
 import { eventCommand } from 'commands/event';
 import { robCommand } from 'commands/games/rob';
 import { leaderboardCommand } from 'commands/user/leaderboard';
-
-/**
- * Logs the provided message with color-coded log levels.
- *
- * If `level` is 'info' and debugging is disabled, the message is not logged.
- *
- * @param message - The message to log.
- * @param level - The log level: 'info', 'warn', or 'error'.
- */
-export const logMessage = (
-	message: string,
-	level: 'info' | 'warn' | 'error' = 'info'
-) => {
-	if (level === 'info' && !config.dev) return;
-	console[level](`${level.toUpperCase()}: ${message}`);
-};
+import { logMessage } from 'lib/utils';
 
 /**
  * Handles the `ClientReady` event.
