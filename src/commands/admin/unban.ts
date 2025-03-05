@@ -3,6 +3,7 @@ import {
 	MessageFlags,
 	SlashCommandBuilder,
 	EmbedBuilder,
+	PermissionFlagsBits,
 } from 'discord.js';
 import type { ICommand, IPlayerData } from 'types';
 import { Api } from 'config/api';
@@ -14,6 +15,7 @@ export const unbanCommand: ICommand = {
 	data: new SlashCommandBuilder()
 		.setName('unban')
 		.setDescription('Unbans a user.')
+		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
 		.addUserOption((option) =>
 			option
 				.setName('username')

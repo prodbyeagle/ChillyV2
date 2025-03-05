@@ -3,17 +3,19 @@ import {
 	ChatInputCommandInteraction,
 	EmbedBuilder,
 	MessageFlags,
+	PermissionFlagsBits,
 	PermissionsBitField,
 	SlashCommandBuilder,
 } from 'discord.js';
-import type { ICommand } from 'types';
+import { ICommand } from 'types';
 
-export const unlockCommand: ICommand = {
+export const lockCommand: ICommand = {
 	name: 'lock',
 	description:
 		'Locks the channel by disabling send message permissions for everyone.',
 	data: new SlashCommandBuilder()
 		.setName('lock')
+		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
 		.setDescription('Locks the channel'),
 	execute: async (interaction: ChatInputCommandInteraction) => {
 		const channel = interaction.channel;
@@ -39,7 +41,7 @@ export const unlockCommand: ICommand = {
 				permissionOverwrites: [
 					{
 						id: channel.guild.roles.everyone.id,
-						allow: [PermissionsBitField.Flags.SendMessages],
+						deny: [PermissionsBitField.Flags.SendMessages],
 					},
 				],
 			});
