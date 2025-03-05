@@ -36,8 +36,7 @@ export const profileCommand: ICommand = {
 					.setColor(branding.AccentColor)
 					.setTitle('❌ Profile Not Found')
 					.setDescription(`No profile found for **${playerName}**.`)
-					.setTimestamp()
-					.setFooter({ text: '🦅 prodbyeagle' });
+					.setTimestamp();
 
 				await interaction.reply({
 					embeds: [noProfileEmbed],
@@ -99,8 +98,7 @@ export const profileCommand: ICommand = {
 						inline: false,
 					}
 				)
-				.setTimestamp()
-				.setFooter({ text: '🦅 prodbyeagle' });
+				.setTimestamp();
 
 			await interaction.reply({
 				embeds: [embed],
@@ -115,8 +113,7 @@ export const profileCommand: ICommand = {
 				.setDescription(
 					'An error occurred while fetching the profile. Please try again later.'
 				)
-				.setTimestamp()
-				.setFooter({ text: '🦅 prodbyeagle' });
+				.setTimestamp();
 
 			await interaction.reply({
 				embeds: [errorEmbed],

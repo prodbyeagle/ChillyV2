@@ -1,5 +1,7 @@
+import { branding } from 'config/config';
 import {
 	ChatInputCommandInteraction,
+	EmbedBuilder,
 	MessageFlags,
 	PermissionsBitField,
 	SlashCommandBuilder,
@@ -7,18 +9,26 @@ import {
 import type { ICommand } from 'types';
 
 export const unlockCommand: ICommand = {
-	name: 'unlock',
+	name: 'lock',
 	description:
-		'Unlocks the channel by enabling send message permissions for everyone.',
+		'Locks the channel by disabling send message permissions for everyone.',
 	data: new SlashCommandBuilder()
-		.setName('unlock')
-		.setDescription('Unlocks the channel'),
+		.setName('lock')
+		.setDescription('Locks the channel'),
 	execute: async (interaction: ChatInputCommandInteraction) => {
 		const channel = interaction.channel;
 
 		if (!channel?.isTextBased()) {
+			const embed = new EmbedBuilder()
+				.setTitle('❌ Invalid Channel')
+				.setDescription(
+					'This command can only be used in text channels.'
+				)
+				.setColor(branding.AccentColor)
+				.setTimestamp();
+
 			await interaction.reply({
-				content: 'This command can only be used in text channels.',
+				embeds: [embed],
 				flags: MessageFlags.Ephemeral,
 			});
 			return;
@@ -34,13 +44,27 @@ export const unlockCommand: ICommand = {
 				],
 			});
 
+			const embed = new EmbedBuilder()
+				.setTitle('✅ Channel Locked')
+				.setDescription(
+					'Channel has been locked. No one can send messages.'
+				)
+				.setColor(branding.AccentColor)
+				.setTimestamp();
+
 			await interaction.reply({
-				content:
-					'Channel has been unlocked. Everyone can send messages again.',
+				embeds: [embed],
+				flags: MessageFlags.Ephemeral,
 			});
 		} catch (error) {
+			const embed = new EmbedBuilder()
+				.setTitle('❌ Error')
+				.setDescription(`Error locking the channel: ${error.message}`)
+				.setColor(branding.AccentColor)
+				.setTimestamp();
+
 			await interaction.reply({
-				content: `Error unlocking the channel: ${error.message}`,
+				embeds: [embed],
 				flags: MessageFlags.Ephemeral,
 			});
 		}

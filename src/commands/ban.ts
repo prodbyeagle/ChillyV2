@@ -2,9 +2,11 @@ import {
 	ChatInputCommandInteraction,
 	MessageFlags,
 	SlashCommandBuilder,
+	EmbedBuilder,
 } from 'discord.js';
-import { ICommand, IPlayerData } from 'types';
+import type { ICommand, IPlayerData } from 'types';
 import { Api } from 'config/api';
+import { branding } from 'config/config';
 
 export const banCommand: ICommand = {
 	name: 'ban',
@@ -30,8 +32,14 @@ export const banCommand: ICommand = {
 			interaction.options.getString('banreason') || 'No reason provided';
 
 		if (!targetUser) {
+			const embed = new EmbedBuilder()
+				.setTitle('❌ User Not Found')
+				.setDescription('The specified user could not be found.')
+				.setColor(branding.AccentColor)
+				.setTimestamp();
+
 			await interaction.reply({
-				content: 'User not found!',
+				embeds: [embed],
 				flags: MessageFlags.Ephemeral,
 			});
 			return;
@@ -43,8 +51,14 @@ export const banCommand: ICommand = {
 			);
 
 			if (!playerData) {
+				const embed = new EmbedBuilder()
+					.setTitle('❌ Player Not Found')
+					.setDescription(`Player ${targetUser.username} not found.`)
+					.setColor(branding.AccentColor)
+					.setTimestamp();
+
 				await interaction.reply({
-					content: `Player ${targetUser.username} not found.`,
+					embeds: [embed],
 					flags: MessageFlags.Ephemeral,
 				});
 				return;
@@ -62,20 +76,35 @@ export const banCommand: ICommand = {
 				updatedData
 			);
 
+			const embed = new EmbedBuilder().setTimestamp();
+
 			if (success) {
-				await interaction.reply({
-					content: `Successfully banned ${targetUser.username} for: ${banReason}`,
-					flags: MessageFlags.Ephemeral,
-				});
+				embed
+					.setTitle('✅ Ban Successful')
+					.setDescription(
+						`Successfully banned ${targetUser.username} for: ${banReason}`
+					)
+					.setColor(branding.AccentColor);
 			} else {
-				await interaction.reply({
-					content: 'Failed to ban the user.',
-					flags: MessageFlags.Ephemeral,
-				});
+				embed
+					.setTitle('❌ Ban Failed')
+					.setDescription('Failed to ban the user.')
+					.setColor(branding.AccentColor);
 			}
-		} catch (error) {
+
 			await interaction.reply({
-				content: `Error banning user: ${error.message}`,
+				embeds: [embed],
+				flags: MessageFlags.Ephemeral,
+			});
+		} catch (error) {
+			const embed = new EmbedBuilder()
+				.setTitle('❌ Error')
+				.setDescription(`Error banning user: ${error.message}`)
+				.setColor(branding.AccentColor)
+				.setTimestamp();
+
+			await interaction.reply({
+				embeds: [embed],
 				flags: MessageFlags.Ephemeral,
 			});
 		}

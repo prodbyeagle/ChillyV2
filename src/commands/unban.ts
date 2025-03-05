@@ -2,9 +2,11 @@ import {
 	ChatInputCommandInteraction,
 	MessageFlags,
 	SlashCommandBuilder,
+	EmbedBuilder,
 } from 'discord.js';
 import { ICommand, IPlayerData } from 'types';
 import { Api } from 'config/api';
+import { branding } from 'config/config';
 
 export const unbanCommand: ICommand = {
 	name: 'unban',
@@ -22,8 +24,14 @@ export const unbanCommand: ICommand = {
 		const targetUser = interaction.options.getUser('username');
 
 		if (!targetUser) {
+			const embed = new EmbedBuilder()
+				.setTitle('❌ User Not Found')
+				.setDescription('The specified user could not be found.')
+				.setColor(branding.AccentColor)
+				.setTimestamp();
+
 			await interaction.reply({
-				content: 'User not found!',
+				embeds: [embed],
 				flags: MessageFlags.Ephemeral,
 			});
 			return;
@@ -35,8 +43,14 @@ export const unbanCommand: ICommand = {
 			);
 
 			if (!playerData) {
+				const embed = new EmbedBuilder()
+					.setTitle('❌ Player Not Found')
+					.setDescription(`Player ${targetUser.username} not found.`)
+					.setColor(branding.AccentColor)
+					.setTimestamp();
+
 				await interaction.reply({
-					content: `Player ${targetUser.username} not found.`,
+					embeds: [embed],
 					flags: MessageFlags.Ephemeral,
 				});
 				return;
@@ -54,20 +68,35 @@ export const unbanCommand: ICommand = {
 				updatedData
 			);
 
+			const embed = new EmbedBuilder().setTimestamp();
+
 			if (success) {
-				await interaction.reply({
-					content: `Successfully unbanned ${targetUser.username}.`,
-					flags: MessageFlags.Ephemeral,
-				});
+				embed
+					.setTitle('✅ Unban Successful')
+					.setDescription(
+						`Successfully unbanned ${targetUser.username}.`
+					)
+					.setColor(branding.AccentColor);
 			} else {
-				await interaction.reply({
-					content: 'Failed to unban the user.',
-					flags: MessageFlags.Ephemeral,
-				});
+				embed
+					.setTitle('❌ Unban Failed')
+					.setDescription('Failed to unban the user.')
+					.setColor(branding.AccentColor);
 			}
-		} catch (error) {
+
 			await interaction.reply({
-				content: `Error unbanning user: ${error.message}`,
+				embeds: [embed],
+				flags: MessageFlags.Ephemeral,
+			});
+		} catch (error) {
+			const embed = new EmbedBuilder()
+				.setTitle('❌ Error')
+				.setDescription(`Error unbanning user: ${error.message}`)
+				.setColor(branding.AccentColor)
+				.setTimestamp();
+
+			await interaction.reply({
+				embeds: [embed],
 				flags: MessageFlags.Ephemeral,
 			});
 		}

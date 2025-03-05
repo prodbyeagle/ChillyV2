@@ -1,5 +1,7 @@
+import { branding } from 'config/config';
 import {
 	ChatInputCommandInteraction,
+	EmbedBuilder,
 	MessageFlags,
 	PermissionsBitField,
 	SlashCommandBuilder,
@@ -17,8 +19,16 @@ export const lockCommand: ICommand = {
 		const channel = interaction.channel;
 
 		if (!channel?.isTextBased()) {
+			const embed = new EmbedBuilder()
+				.setTitle('❌ Invalid Channel')
+				.setDescription(
+					'This command can only be used in text channels.'
+				)
+				.setColor(branding.AccentColor)
+				.setTimestamp();
+
 			await interaction.reply({
-				content: 'This command can only be used in text channels.',
+				embeds: [embed],
 				flags: MessageFlags.Ephemeral,
 			});
 			return;
@@ -34,12 +44,27 @@ export const lockCommand: ICommand = {
 				],
 			});
 
+			const embed = new EmbedBuilder()
+				.setTitle('✅ Channel Locked')
+				.setDescription(
+					'Channel has been locked. No one can send messages.'
+				)
+				.setColor(branding.AccentColor)
+				.setTimestamp();
+
 			await interaction.reply({
-				content: 'Channel has been locked. No one can send messages.',
+				embeds: [embed],
+				flags: MessageFlags.Ephemeral,
 			});
 		} catch (error) {
+			const embed = new EmbedBuilder()
+				.setTitle('❌ Error')
+				.setDescription(`Error locking the channel: ${error.message}`)
+				.setColor(branding.AccentColor)
+				.setTimestamp();
+
 			await interaction.reply({
-				content: `Error locking the channel: ${error.message}`,
+				embeds: [embed],
 				flags: MessageFlags.Ephemeral,
 			});
 		}
