@@ -25,6 +25,18 @@ export const Api = {
 		}
 	},
 
+	async getAllPlayers(): Promise<IPlayerData[]> {
+		try {
+			return await db.GET<IPlayerData>('players', {});
+		} catch (error) {
+			logMessage(
+				`Error fetching all players: ${JSON.stringify(error)}`,
+				'error'
+			);
+			return [];
+		}
+	},
+
 	/**
 	 * Creates a new player entry in the database.
 	 * @param data - The player data to be stored.
