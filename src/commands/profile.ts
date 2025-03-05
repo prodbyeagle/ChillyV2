@@ -7,6 +7,7 @@ import {
 import { ICommand, IPlayerData } from 'types';
 import { Api } from 'config/api';
 import { branding } from 'config/config';
+import { formatLargeNumber } from 'lib/utils';
 
 export const profileCommand: ICommand = {
 	name: 'profile',
@@ -60,12 +61,14 @@ export const profileCommand: ICommand = {
 					},
 					{
 						name: '⭐ XP',
-						value: `${playerData.experiencepoints || 0}`,
+						value: `${
+							formatLargeNumber(playerData.experiencepoints) || 0
+						}`,
 						inline: true,
 					},
 					{
 						name: '💰 Balance',
-						value: `${playerData.balance || 0}`,
+						value: `${formatLargeNumber(playerData.balance || 0)}`,
 						inline: true,
 					},
 					{
@@ -75,7 +78,9 @@ export const profileCommand: ICommand = {
 					},
 					{
 						name: '💬 Messages Sent',
-						value: `${playerData.messagessent || 0}`,
+						value: `${formatLargeNumber(
+							playerData.messagessent || 0
+						)}`,
 						inline: true,
 					},
 					{

@@ -1,4 +1,4 @@
-import { config } from "config/config";
+import { config } from 'config/config';
 
 /**
  * Logs the provided message with color-coded log levels.
@@ -15,3 +15,21 @@ export const logMessage = (
 	if (level === 'info' && !config.dev) return;
 	console[level](`${level.toUpperCase()}: ${message}`);
 };
+
+export function formatLargeNumber(number: number): string {
+	const units = ['', 'k', 'M', 'B', 'T', 'Qa', 'Qt', 'Sx', 'Sp', 'Oc', 'No'];
+	let unitIndex = 0;
+	let formattedNumber = number;
+
+	while (formattedNumber >= 1000 && unitIndex < units.length - 1) {
+		formattedNumber /= 1000;
+		unitIndex++;
+	}
+
+	const formattedString =
+		formattedNumber % 1 === 0
+			? `${formattedNumber.toFixed(0)}`
+			: `${formattedNumber.toFixed(1)}`;
+
+	return `${formattedString}${units[unitIndex]}`;
+}

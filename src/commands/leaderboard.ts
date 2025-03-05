@@ -7,6 +7,7 @@ import {
 import { ICommand, IPlayerData } from 'types';
 import { Api } from 'config/api';
 import { branding } from 'config/config';
+import { formatLargeNumber } from 'lib/utils';
 
 /**
  * Fetches and displays the leaderboard based on the selected category.
@@ -78,7 +79,7 @@ export const leaderboardCommand: ICommand = {
 					const rank = index + 1;
 					const rankEmoji =
 						rank <= 3 ? rankEmojis[rank - 1] : `#${rank}`;
-					return `${rankEmoji} <@${player.userid}> - **${player[category]}**`;
+					return `${rankEmoji} <@${player.userid}> - **${formatLargeNumber(player[category])}**`;
 				})
 				.join('\n');
 

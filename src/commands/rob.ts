@@ -7,6 +7,7 @@ import {
 import type { ICommand } from 'types';
 import { Api } from 'config/api';
 import { branding } from 'config/config';
+import { formatLargeNumber } from 'lib/utils';
 
 const robCooldowns: Map<string, number> = new Map();
 
@@ -81,7 +82,6 @@ export const robCommand: ICommand = {
 				return;
 			}
 
-
 			if (targetData.isbanned) {
 				await interaction.reply({
 					embeds: [
@@ -149,7 +149,9 @@ export const robCommand: ICommand = {
 				embed
 					.setTitle('🎉 JACKPOT!')
 					.setDescription(
-						`OMG! You stole **ALL** of ${target.username}'s 🪙 **${stolenAmount}** coins!`
+						`OMG! You stole **ALL** of ${
+							target.username
+						}'s 🪙 **${formatLargeNumber(stolenAmount)}** coins!`
 					)
 					.setColor(branding.SuccessColor);
 
@@ -158,7 +160,11 @@ export const robCommand: ICommand = {
 						new EmbedBuilder()
 							.setTitle('💥 Robbery Alert')
 							.setDescription(
-								`**${user.username}** just stole all your coins! You lost **${stolenAmount}** coins!`
+								`**${
+									user.username
+								}** just stole all your coins! You lost **${formatLargeNumber(
+									stolenAmount
+								)}** coins!`
 							)
 							.setColor(branding.AccentColor),
 					],
@@ -170,7 +176,11 @@ export const robCommand: ICommand = {
 				embed
 					.setTitle('💰 Successful Robbery')
 					.setDescription(
-						`You robbed **${target.username}** and stole 🪙 **${stolenAmount}** coins, gaining **${xpGain} XP**!`
+						`You robbed **${
+							target.username
+						}** and stole 🪙 **${formatLargeNumber(
+							stolenAmount
+						)}** coins, gaining **${xpGain} XP**!`
 					)
 					.setColor(branding.SuccessColor);
 
@@ -179,7 +189,11 @@ export const robCommand: ICommand = {
 						new EmbedBuilder()
 							.setTitle('💥 Robbery Alert')
 							.setDescription(
-								`**${user.username}** just robbed you! You lost **${stolenAmount}** coins.`
+								`**${
+									user.username
+								}** just robbed you! You lost **${formatLargeNumber(
+									stolenAmount
+								)}** coins.`
 							)
 							.setColor(branding.AccentColor),
 					],
@@ -192,7 +206,11 @@ export const robCommand: ICommand = {
 				embed
 					.setTitle('❌ Robbery Failed')
 					.setDescription(
-						`You failed to rob ${target.username} and lost 🪙 **${lostAmount}** coins!`
+						`You failed to rob ${
+							target.username
+						} and lost 🪙 **${formatLargeNumber(
+							lostAmount
+						)}** coins!`
 					)
 					.setColor(branding.AccentColor);
 			}
