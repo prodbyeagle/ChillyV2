@@ -4,7 +4,7 @@ import {
 	SlashCommandBuilder,
 	EmbedBuilder,
 } from 'discord.js';
-import { ICommand, IPlayerData } from 'types';
+import type { ICommand, IPlayerData } from 'types';
 import { Api } from 'config/api';
 import { branding } from 'config/config';
 
