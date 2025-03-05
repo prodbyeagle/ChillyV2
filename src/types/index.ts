@@ -18,7 +18,7 @@ export interface ICommand {
 }
 
 export interface IPlayerData {
-	//? id is from supabase
+	//? id is from supabase. dont use. use instead userid
 	id?: number;
 	userid: string;
 	username: string;

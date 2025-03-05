@@ -1,6 +1,29 @@
-import { Events, MessageFlags } from 'discord.js';
+import { EmbedBuilder, Events, MessageFlags } from 'discord.js';
 import { logMessage } from 'lib/utils';
 import { ChillyClient } from 'client';
+import { Api } from 'config/api';
+import { branding } from 'config/config';
+
+/**
+ * Checks if a user is banned and sends an appropriate error message.
+ * @param userId - The ID of the user to check.
+ * @returns A boolean indicating whether the user is banned.
+ */
+const isUserBanned = async (userId: string): Promise<boolean> => {
+	try {
+		const userData = await Api.getPlayerByID(userId);
+		if (!userData) {
+			return false;
+		}
+		return userData.isbanned;
+	} catch (error) {
+		logMessage(
+			`Error checking ban status for user ${userId}: ${error.message}`,
+			'error'
+		);
+		return false;
+	}
+};
 
 /**
  * Handles the `InteractionCreate` event.
@@ -47,6 +70,21 @@ export const interactionCreateEvent = (client: ChillyClient) => {
 			return;
 		}
 
+		const userBanned = await isUserBanned(interaction.user.id);
+		if (userBanned) {
+			const bannedEmbed = new EmbedBuilder()
+				.setTitle('❌ Banned')
+				.setDescription('You are banned from using commands!')
+				.setColor(branding.AccentColor)
+				.setTimestamp();
+
+			await interaction.reply({
+				embeds: [bannedEmbed],
+				flags: MessageFlags.Ephemeral,
+			});
+			return;
+		}
+
 		try {
 			await command.execute(interaction);
 		} catch (error) {
@@ -55,16 +93,23 @@ export const interactionCreateEvent = (client: ChillyClient) => {
 				'error'
 			);
 
-			const errorMessage = {
-				content: 'There was an error executing this command!',
-				flags: MessageFlags.Ephemeral as const,
-			};
+			const errorEmbed = new EmbedBuilder()
+				.setTitle('❌ Command Error')
+				.setDescription('There was an error executing this command!')
+				.setColor(branding.AccentColor)
+				.setTimestamp();
 
 			try {
 				if (interaction.replied || interaction.deferred) {
-					await interaction.followUp(errorMessage);
+					await interaction.followUp({
+						embeds: [errorEmbed],
+						flags: MessageFlags.Ephemeral,
+					});
 				} else {
-					await interaction.reply(errorMessage);
+					await interaction.reply({
+						embeds: [errorEmbed],
+						flags: MessageFlags.Ephemeral,
+					});
 				}
 			} catch (replyError) {
 				logMessage(

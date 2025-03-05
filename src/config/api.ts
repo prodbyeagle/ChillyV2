@@ -25,6 +25,33 @@ export const Api = {
 		}
 	},
 
+	/**
+	 * Fetches a player's data by userid.
+	 * @param userid - The userid of the player.
+	 * @returns The player's data or null if not found.
+	 */
+	async getPlayerByID(userid: string): Promise<IPlayerData | null> {
+		try {
+			const data = await db.GET<IPlayerData>('players', { userid });
+
+			if (!data || data.length === 0) {
+				logMessage(`No player found for ID: ${userid}`, 'info');
+				return null;
+			}
+			
+			return data[0];
+
+		} catch (error) {
+			logMessage(
+				`Error fetching player data for ${userid}: ${JSON.stringify(
+					error
+				)}`,
+				'error'
+			);
+			return null;
+		}
+	},
+
 	async getAllPlayers(): Promise<IPlayerData[]> {
 		try {
 			return await db.GET<IPlayerData>('players', {});
