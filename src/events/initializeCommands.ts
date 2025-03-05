@@ -11,6 +11,7 @@ import { banCommand } from 'commands/ban';
 import { unbanCommand } from 'commands/unban';
 import { lockCommand } from 'commands/lock';
 import { unlockCommand } from 'commands/unlock';
+import { commandsCommand } from 'commands/commands';
 
 /**
  * Initializes and registers all commands for the bot.
@@ -28,6 +29,7 @@ export const initializeCommands = async (client: ChillyClient) => {
 	commands.set(unbanCommand.name, unbanCommand);
 	commands.set(lockCommand.name, lockCommand);
 	commands.set(unlockCommand.name, unlockCommand);
+	commands.set(commandsCommand.name, commandsCommand);
 
 	client.commands.set(profileCommand.name, profileCommand);
 	client.commands.set(eventCommand.name, eventCommand);
@@ -37,6 +39,7 @@ export const initializeCommands = async (client: ChillyClient) => {
 	client.commands.set(unbanCommand.name, unbanCommand);
 	client.commands.set(lockCommand.name, lockCommand);
 	client.commands.set(unlockCommand.name, unlockCommand);
+	client.commands.set(commandsCommand.name, commandsCommand);
 
 	try {
 		await rest.put(Routes.applicationCommands(client.user.id), {
