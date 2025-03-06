@@ -18,10 +18,8 @@
 		"globals": "latest",
 		"typescript": "latest",
 		"typescript-eslint": "latest",
-		"ulid": "latest"
-	},
-	"dependencies": {
-		"@types/he": "^1.2.3",
-		"he": "^1.2.0"
+		"ulid": "latest",
+		"@types/he": "latest",
+		"he": "latest"
 	}
 }
