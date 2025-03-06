@@ -3,6 +3,7 @@ import { REST, Routes } from 'discord.js';
 import { config } from 'config/config';
 import { ChillyClient } from 'client';
 import { logMessage } from 'lib/utils';
+
 import { profileCommand } from 'commands/profile';
 import { eventCommand } from 'commands/event';
 import { robCommand } from 'commands/fun/rob';
@@ -11,8 +12,8 @@ import { banCommand } from 'commands/admin/ban';
 import { unbanCommand } from 'commands/admin/unban';
 import { lockCommand } from 'commands/admin/lock';
 import { unlockCommand } from 'commands/admin/unlock';
-import { commandsCommand } from 'commands/commands';
 import { warnCommand } from 'commands/admin/warn';
+import { remindMeCommand } from 'commands/remindme';
 
 /**
  * Initializes and registers all commands for the bot.
@@ -30,8 +31,8 @@ export const initializeCommands = async (client: ChillyClient) => {
 	commands.set(unbanCommand.name, unbanCommand);
 	commands.set(lockCommand.name, lockCommand);
 	commands.set(unlockCommand.name, unlockCommand);
-	commands.set(commandsCommand.name, commandsCommand);
 	commands.set(warnCommand.name, warnCommand);
+	commands.set(remindMeCommand.name, remindMeCommand);
 
 	client.commands.set(profileCommand.name, profileCommand);
 	client.commands.set(eventCommand.name, eventCommand);
@@ -41,8 +42,8 @@ export const initializeCommands = async (client: ChillyClient) => {
 	client.commands.set(unbanCommand.name, unbanCommand);
 	client.commands.set(lockCommand.name, lockCommand);
 	client.commands.set(unlockCommand.name, unlockCommand);
-	client.commands.set(commandsCommand.name, commandsCommand);
 	client.commands.set(warnCommand.name, warnCommand);
+	client.commands.set(remindMeCommand.name, remindMeCommand);
 
 	try {
 		await rest.put(Routes.applicationCommands(client.user.id), {
