@@ -4,7 +4,6 @@ import {
 	ChatInputCommandInteraction,
 	MessageFlags,
 	PermissionFlagsBits,
-	PermissionsBitField,
 } from 'discord.js';
 import type { ICommand } from 'types';
 import { Api } from 'config/api';
@@ -39,18 +38,11 @@ export const warnCommand: ICommand = {
 			return;
 		}
 
-		if (
-			interaction.member?.permissions instanceof PermissionsBitField &&
-			!interaction.member.permissions.has(
-				PermissionFlagsBits.Administrator
-			)
-		) {
+		if (user.bot) {
 			const embed = new EmbedBuilder()
 				.setColor(branding.AccentColor)
-				.setTitle('❌ Permission Denied')
-				.setDescription(
-					'You need administrator permissions to run this command.'
-				);
+				.setTitle('❌ Error')
+				.setDescription('Bots cannot be warned!');
 			await interaction.reply({
 				embeds: [embed],
 				flags: MessageFlags.Ephemeral,
@@ -85,15 +77,12 @@ export const warnCommand: ICommand = {
 				return;
 			}
 
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-			const { id, ...updatedData } = playerData;
-
-			updatedData.warningcount = (playerData.warningcount || 0) + 1;
+			playerData.warningcount = (playerData.warningcount || 0) + 1;
 
 			const success = await Api.updatePlayer(
 				user.username,
 				user.id,
-				updatedData
+				playerData
 			);
 
 			const embed = new EmbedBuilder()
@@ -107,7 +96,7 @@ export const warnCommand: ICommand = {
 					.addFields([
 						{
 							name: 'Warnings',
-							value: updatedData.warningcount.toString(),
+							value: playerData.warningcount.toString(),
 						},
 					]);
 			} else {
