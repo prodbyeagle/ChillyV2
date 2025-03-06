@@ -3,6 +3,7 @@ import { ChillyClient } from '../client';
 import { logMessage } from 'lib/utils';
 import { Api } from '../config/api';
 import type { IPlayerData } from '../types';
+import { handleLevelUp } from './levelup';
 
 /**
  * Tracks messages sent in the server and updates the player's stats.
@@ -67,6 +68,7 @@ export const messageEvent = (client: ChillyClient) => {
 			}
 
 			playerData.messagessent += 1;
+			handleLevelUp(playerData, client);
 
 			await Api.updatePlayer(username, userid, {
 				messagessent: playerData.messagessent,
