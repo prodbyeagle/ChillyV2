@@ -11,7 +11,7 @@ import { config } from 'config/config';
 export const logMessage = (
 	message: string,
 	level: 'info' | 'warn' | 'error' = 'info'
-) => {
+): void => {
 	if (level === 'info' && !config.dev) return;
 	console[level](`${level.toUpperCase()}: ${message}`);
 };
@@ -21,9 +21,22 @@ export const logMessage = (
  * Recommended for Balance or ExperiencePoints.
  *
  * @param number - The number to format.
+ * @returns The formatted number as a string with the appropriate unit.
  */
 export function formatLargeNumber(number: number): string {
-	const units = ['', 'k', 'M', 'B', 'T', 'Qa', 'Qt', 'Sx', 'Sp', 'Oc', 'No'];
+	const units: string[] = [
+		'',
+		'k',
+		'M',
+		'B',
+		'T',
+		'Qa',
+		'Qt',
+		'Sx',
+		'Sp',
+		'Oc',
+		'No',
+	];
 	let unitIndex = 0;
 	let formattedNumber = number;
 
@@ -38,4 +51,21 @@ export function formatLargeNumber(number: number): string {
 			: `${formattedNumber.toFixed(1)}`;
 
 	return `${formattedString}${units[unitIndex]}`;
+}
+
+/**
+ * Formats a Date object into a string with the format YYYY-MM-DD HH:MM:SS.
+ *
+ * @param date - The Date object to format.
+ * @returns The formatted date string.
+ */
+export function formatDate(date: Date): string {
+	const year = date.getFullYear();
+	const month = String(date.getMonth() + 1).padStart(2, '0');
+	const day = String(date.getDate()).padStart(2, '0');
+	const hours = String(date.getHours()).padStart(2, '0');
+	const minutes = String(date.getMinutes()).padStart(2, '0');
+	const seconds = String(date.getSeconds()).padStart(2, '0');
+
+	return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
