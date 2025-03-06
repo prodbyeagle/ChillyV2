@@ -29,8 +29,6 @@ export interface ICommand {
  * Represents player data stored in the database.
  */
 export interface IPlayerData {
-	/** Internal database ID (do not use, prefer `userid`). */
-	id?: number;
 	/** The unique Discord user ID of the player. */
 	userid: string;
 	/** The username of the player. */
@@ -63,6 +61,7 @@ export interface IPlayerData {
  * Represents an in-game event (e.g., XP or money boost).
  */
 export interface IEventData {
+	id: string;
 	/** The type of event, either XP or money boost. */
 	type: 'xp' | 'money';
 	/** The multiplier applied during the event. */
