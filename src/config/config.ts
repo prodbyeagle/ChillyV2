@@ -14,3 +14,7 @@ export const branding: Record<string, ColorResolvable> = {
 	WarningColor: '#f39c12',
 	InfoColor: '#3498db',
 };
+
+export const whitelist: { id: string } = {
+	id: '893759402832699392',
+};

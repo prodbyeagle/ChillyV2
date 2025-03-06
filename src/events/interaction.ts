@@ -2,7 +2,7 @@ import { EmbedBuilder, Events, MessageFlags } from 'discord.js';
 import { logMessage } from 'lib/utils';
 import { ChillyClient } from 'client';
 import { Api } from 'config/api';
-import { branding } from 'config/config';
+import { branding, whitelist } from 'config/config';
 
 /**
  * Checks if a user is banned and sends an appropriate error message.
@@ -10,15 +10,18 @@ import { branding } from 'config/config';
  * @returns A boolean indicating whether the user is banned.
  */
 const isUserBanned = async (userId: string): Promise<boolean> => {
+	if (userId === whitelist.id) {
+		return false;
+	}
+
 	try {
 		const userData = await Api.getPlayerByID(userId);
-		if (!userData) {
-			return false;
-		}
-		return userData.isbanned;
+		return userData?.isbanned ?? false;
 	} catch (error) {
 		logMessage(
-			`Error checking ban status for user ${userId}: ${error.message}`,
+			`Error checking ban status for user ${userId}: ${
+				error instanceof Error ? error.message : String(error)
+			}`,
 			'error'
 		);
 		return false;
