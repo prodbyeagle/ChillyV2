@@ -88,6 +88,23 @@ export const interactionCreateEvent = (client: ChillyClient) => {
 			return;
 		}
 
+		const playerData = await Api.getPlayerByID(interaction.user.id);
+		if (!playerData) {
+			const noPlayerEmbed = new EmbedBuilder()
+				.setTitle('🫸 WARNING')
+				.setDescription(
+					'Seems like you dont have an Profile! Just Type something to create an Profile'
+				)
+				.setColor(branding.AccentColor)
+				.setTimestamp();
+
+			await interaction.reply({
+				embeds: [noPlayerEmbed],
+				flags: MessageFlags.Ephemeral,
+			});
+			return;
+		}
+
 		try {
 			await command.execute(interaction);
 		} catch (error) {
