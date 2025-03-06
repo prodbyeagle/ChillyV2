@@ -127,51 +127,51 @@ export const robCommand: ICommand = {
 				return;
 			}
 
-			const activeEvent = await Api.getCurrentEvent();
-			let eventMultiplier = 1;
-			if (activeEvent && activeEvent.type === 'money') {
-				eventMultiplier = activeEvent.multiplier;
-			}
-
-			const jackpotChance = Math.random() <= 0.0001;
 			const successChance = Math.random() <= 0.5;
-			const maxStealPercentage = jackpotChance ? 1 : Math.random() * 0.25;
+			const maxStealPercentage = Math.random() * (0.15 - 0.07) + 0.07;
 			const stolenAmount = Math.floor(
-				targetData.balance * maxStealPercentage * eventMultiplier
+				targetData.balance * maxStealPercentage
 			);
-			const xpGain = Math.floor(stolenAmount * 0.05);
+			const lostAmount = Math.floor(
+				robberData.balance * (Math.random() * (0.1 - 0.02) + 0.02)
+			);
 
 			const embed = new EmbedBuilder().setTimestamp();
 
-			if (jackpotChance) {
-				robberData.balance += targetData.balance;
-				targetData.balance = 0;
-				embed
-					.setTitle('🎉 JACKPOT!')
-					.setDescription(
-						`OMG! You stole **ALL** of ${
-							target.username
-						}'s 🪙 **${formatLargeNumber(stolenAmount)}** coins!`
-					)
-					.setColor(branding.SuccessColor);
+			if (successChance) {
+				await target
+					.send({
+						embeds: [
+							new EmbedBuilder()
+								.setTitle('💥 Robbery Alert')
+								.setDescription(
+									`**${
+										user.username
+									}** just robbed you and stole **${formatLargeNumber(
+										stolenAmount
+									)}** coins!`
+								)
+								.setColor(branding.AccentColor),
+						],
+					})
+					.catch(() => {});
+			} else {
+				await target
+					.send({
+						embeds: [
+							new EmbedBuilder()
+								.setTitle('💥 Robbery Attempt')
+								.setDescription(
+									`**${user.username}** tried to rob you but failed!`
+								)
+								.setColor(branding.WarningColor),
+						],
+					})
+					.catch(() => {});
+			}
 
-				await target.send({
-					embeds: [
-						new EmbedBuilder()
-							.setTitle('💥 Robbery Alert')
-							.setDescription(
-								`**${
-									user.username
-								}** just stole all your coins! You lost **${formatLargeNumber(
-									stolenAmount
-								)}** coins!`
-							)
-							.setColor(branding.AccentColor),
-					],
-				});
-			} else if (successChance) {
+			if (successChance) {
 				robberData.balance += stolenAmount;
-				robberData.experiencepoints += xpGain;
 				targetData.balance -= stolenAmount;
 				embed
 					.setTitle('💰 Successful Robbery')
@@ -180,28 +180,10 @@ export const robCommand: ICommand = {
 							target.username
 						}** and stole 🪙 **${formatLargeNumber(
 							stolenAmount
-						)}** coins, gaining **${xpGain} XP**!`
+						)}** coins!`
 					)
 					.setColor(branding.SuccessColor);
-
-				await target.send({
-					embeds: [
-						new EmbedBuilder()
-							.setTitle('💥 Robbery Alert')
-							.setDescription(
-								`**${
-									user.username
-								}** just robbed you! You lost **${formatLargeNumber(
-									stolenAmount
-								)}** coins.`
-							)
-							.setColor(branding.AccentColor),
-					],
-				});
 			} else {
-				const lostAmount = Math.floor(
-					targetData.balance * Math.random() * 0.25
-				);
 				robberData.balance -= lostAmount;
 				embed
 					.setTitle('❌ Robbery Failed')
@@ -214,35 +196,13 @@ export const robCommand: ICommand = {
 					)
 					.setColor(branding.AccentColor);
 			}
-
-			await Api.updatePlayer(user.username, user.id, {
-				balance: robberData.balance,
-				experiencepoints: robberData.experiencepoints,
-			});
-
-			await Api.updatePlayer(target.username, target.id, {
-				balance: targetData.balance,
-			});
-
 			robCooldowns.set(user.id, Date.now() + 120000);
-
 			await interaction.reply({
 				embeds: [embed],
 				flags: MessageFlags.Ephemeral,
 			});
 		} catch (error) {
 			console.error('Error in rob command:', error);
-			await interaction.reply({
-				embeds: [
-					new EmbedBuilder()
-						.setTitle('❌ Error')
-						.setDescription(
-							'There was an error executing the command.'
-						)
-						.setColor(branding.AccentColor),
-				],
-				flags: MessageFlags.Ephemeral,
-			});
 		}
 	},
 };
