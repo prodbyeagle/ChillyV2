@@ -16,6 +16,12 @@ export const logMessage = (
 	console[level](`${level.toUpperCase()}: ${message}`);
 };
 
+/**
+ * Formats Large Numbers into readable numbers.
+ * Recommended for Balance or ExperiencePoints.
+ *
+ * @param number - The number to format.
+ */
 export function formatLargeNumber(number: number): string {
 	const units = ['', 'k', 'M', 'B', 'T', 'Qa', 'Qt', 'Sx', 'Sp', 'Oc', 'No'];
 	let unitIndex = 0;
