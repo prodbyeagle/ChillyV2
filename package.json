@@ -3,7 +3,7 @@
 	"description": "Rewrite of my First Coding Project. An Discord Bot.",
 	"scripts": {
 		"cook": "bun --bun run ./src/main.ts",
-		"serve": "bun build --outdir=target --target=bun --minify ./src/main.ts",
+		"serve": "bun build --outdir=target --sourcemap --target=node --minify ./src/main.ts",
 		"oven": "bunx eslint 'src/**'",
 		"bake": "bunx prettier --check --write './src/**/*.{ts,js,json,md}'"
 	},
@@ -19,5 +19,9 @@
 		"typescript": "latest",
 		"typescript-eslint": "latest",
 		"ulid": "latest"
+	},
+	"dependencies": {
+		"@types/he": "^1.2.3",
+		"he": "^1.2.0"
 	}
 }
