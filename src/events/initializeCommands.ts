@@ -15,6 +15,7 @@ import { unlockCommand } from 'commands/admin/unlock';
 import { warnCommand } from 'commands/admin/warn';
 import { remindMeCommand } from 'commands/remindme';
 import { triviaCommand } from 'commands/fun/trivia';
+import { clearChannelCommand } from 'commands/admin/clearchannel';
 
 /**
  * Initializes and registers all commands for the bot.
@@ -35,6 +36,7 @@ export const initializeCommands = async (client: ChillyClient) => {
 	commands.set(warnCommand.name, warnCommand);
 	commands.set(remindMeCommand.name, remindMeCommand);
 	commands.set(triviaCommand.name, triviaCommand);
+	commands.set(clearChannelCommand.name, clearChannelCommand);
 
 	client.commands.set(profileCommand.name, profileCommand);
 	client.commands.set(eventCommand.name, eventCommand);
@@ -47,6 +49,7 @@ export const initializeCommands = async (client: ChillyClient) => {
 	client.commands.set(warnCommand.name, warnCommand);
 	client.commands.set(remindMeCommand.name, remindMeCommand);
 	client.commands.set(triviaCommand.name, triviaCommand);
+	client.commands.set(clearChannelCommand.name, clearChannelCommand);
 
 	try {
 		await rest.put(Routes.applicationCommands(client.user.id), {
