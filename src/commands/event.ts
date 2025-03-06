@@ -9,6 +9,8 @@ import {
 import type { ICommand } from 'types';
 import { Api } from 'config/api';
 import { branding } from 'config/config';
+import { formatDate } from 'lib/utils';
+import { ulid } from 'ulid';
 
 export const eventCommand: ICommand = {
 	name: 'event',
@@ -81,12 +83,14 @@ export const eventCommand: ICommand = {
 				| 'money';
 			const multiplier = interaction.options.getNumber('multiplier')!;
 			const duration = interaction.options.getString('duration')!;
+			const timestamp = formatDate(new Date());
 
 			const success = await Api.createEvent({
+				id: ulid(),
 				type: eventType,
 				multiplier,
 				duration,
-				timestamp: Date.now().toString(),
+				timestamp: timestamp,
 			});
 			const embed = new EmbedBuilder()
 				.setColor(branding.AccentColor)
