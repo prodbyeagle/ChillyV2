@@ -1,4 +1,4 @@
-import { ColorResolvable } from 'discord.js';
+import type { ColorResolvable } from 'discord.js';
 
 export const config = {
 	token: process.env.BOT_TOKEN || 'discord_bot_key',
@@ -15,6 +15,14 @@ export const branding: Record<string, ColorResolvable> = {
 	InfoColor: '#3498db',
 };
 
+//? whitelist for users when banned. ( still can use commands )
 export const whitelist: { id: string } = {
 	id: '893759402832699392',
 };
+
+//? channels that cannot be cleared, currently channels from my server.
+export const channelBlacklist = new Set([
+	'893762440196677646',
+	'1112296580431757392',
+	'1176670295587823696',
+]);
