@@ -1,6 +1,8 @@
-import { Database } from './db';
 import type { IEventData, IPlayerData } from 'types';
+
 import { logMessage } from 'lib/utils';
+
+import { Database } from './db';
 
 const db = new Database();
 

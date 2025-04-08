@@ -1,17 +1,20 @@
+import * as he from 'he';
+
+import { Api } from 'config/api';
+import { branding } from 'config/config';
+
+import type { ICommand } from 'types';
+
 import {
-	ChatInputCommandInteraction,
-	SlashCommandBuilder,
-	EmbedBuilder,
-	MessageFlags,
 	ActionRowBuilder,
 	ButtonBuilder,
 	ButtonStyle,
+	ChatInputCommandInteraction,
 	ComponentType,
+	EmbedBuilder,
+	MessageFlags,
+	SlashCommandBuilder,
 } from 'discord.js';
-import type { ICommand } from 'types';
-import { Api } from 'config/api';
-import { branding } from 'config/config';
-import * as he from 'he';
 
 export const triviaCommand: ICommand = {
 	name: 'trivia',

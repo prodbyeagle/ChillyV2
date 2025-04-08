@@ -1,8 +1,13 @@
+import { Api } from 'config/api';
+
+import type { IPlayerData } from 'types';
+
+import { ChillyClient } from 'client';
+
 import { Events, Message } from 'discord.js';
-import { ChillyClient } from '../client';
+
 import { logMessage } from 'lib/utils';
-import { Api } from '../config/api';
-import type { IPlayerData } from '../types';
+
 import { handleLevelUp } from './levelup';
 
 /**

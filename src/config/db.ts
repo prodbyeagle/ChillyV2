@@ -1,6 +1,8 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { config } from './config';
+import { SupabaseClient, createClient } from '@supabase/supabase-js';
+
 import { logMessage } from 'lib/utils';
+
+import { config } from './config';
 
 /**
  * A database wrapper for performing basic CRUD operations using Supabase.

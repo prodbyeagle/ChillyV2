@@ -1,16 +1,20 @@
+import { ulid } from 'ulid';
+
+import { Api } from 'config/api';
+import { branding } from 'config/config';
+
+import type { ICommand } from 'types';
+
 import {
-	SlashCommandBuilder,
-	EmbedBuilder,
 	ChatInputCommandInteraction,
+	EmbedBuilder,
 	MessageFlags,
 	PermissionFlagsBits,
 	PermissionsBitField,
+	SlashCommandBuilder,
 } from 'discord.js';
-import type { ICommand } from 'types';
-import { Api } from 'config/api';
-import { branding } from 'config/config';
+
 import { formatDate } from 'lib/utils';
-import { ulid } from 'ulid';
 
 export const eventCommand: ICommand = {
 	name: 'event',

@@ -1,4 +1,7 @@
 import { branding } from 'config/config';
+
+import type { ICommand } from 'types';
+
 import {
 	ChatInputCommandInteraction,
 	EmbedBuilder,
@@ -7,7 +10,6 @@ import {
 	PermissionsBitField,
 	SlashCommandBuilder,
 } from 'discord.js';
-import { ICommand } from 'types';
 
 export const lockCommand: ICommand = {
 	name: 'lock',

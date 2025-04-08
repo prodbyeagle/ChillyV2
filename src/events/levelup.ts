@@ -1,8 +1,11 @@
 import { Api } from 'config/api';
-import type { IPlayerData } from 'types';
-import { ChillyClient } from 'client';
-import { EmbedBuilder } from 'discord.js';
 import { branding } from 'config/config';
+
+import type { IPlayerData } from 'types';
+
+import { ChillyClient } from 'client';
+
+import { EmbedBuilder } from 'discord.js';
 
 /**
  * Returns the XP required to level up from the current level.
@@ -32,7 +35,6 @@ export async function handleLevelUp(
 	userData: IPlayerData,
 	client: ChillyClient
 ): Promise<IPlayerData> {
-
 	while (userData.experiencepoints >= xpThreshold(userData.currentlevel)) {
 		const requiredXPForNextLevel = xpThreshold(userData.currentlevel);
 		userData.experiencepoints -= requiredXPForNextLevel;

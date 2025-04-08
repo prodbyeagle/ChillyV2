@@ -1,6 +1,9 @@
-import { Events } from 'discord.js';
 import { ChillyClient } from 'client';
+
+import { Events } from 'discord.js';
+
 import { logMessage } from 'lib/utils';
+
 import { initializeCommands } from './initializeCommands';
 
 /**

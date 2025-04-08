@@ -1,16 +1,18 @@
-import {
-	SlashCommandBuilder,
-	EmbedBuilder,
-	ChatInputCommandInteraction,
-	ButtonBuilder,
-	ActionRowBuilder,
-	ButtonStyle,
-	ComponentType,
-	PermissionFlagsBits,
-} from 'discord.js';
-import type { ICommand, IPlayerData } from 'types';
 import { Api } from 'config/api';
 import { branding } from 'config/config';
+
+import type { ICommand, IPlayerData } from 'types';
+
+import {
+	ActionRowBuilder,
+	ButtonBuilder,
+	ButtonStyle,
+	ChatInputCommandInteraction,
+	ComponentType,
+	EmbedBuilder,
+	PermissionFlagsBits,
+	SlashCommandBuilder,
+} from 'discord.js';
 
 export const settingsCommand: ICommand = {
 	name: 'settings',

@@ -1,8 +1,11 @@
-import { EmbedBuilder, Events, MessageFlags } from 'discord.js';
-import { logMessage } from 'lib/utils';
-import { ChillyClient } from 'client';
 import { Api } from 'config/api';
 import { branding, whitelist } from 'config/config';
+
+import { ChillyClient } from 'client';
+
+import { EmbedBuilder, Events, MessageFlags } from 'discord.js';
+
+import { logMessage } from 'lib/utils';
 
 /**
  * Checks if a user is banned and sends an appropriate error message.

@@ -1,12 +1,15 @@
-import {
-	ChatInputCommandInteraction,
-	SlashCommandBuilder,
-	EmbedBuilder,
-	MessageFlags,
-} from 'discord.js';
-import { ICommand, IPlayerData } from 'types';
 import { Api } from 'config/api';
 import { branding } from 'config/config';
+
+import { ICommand, IPlayerData } from 'types';
+
+import {
+	ChatInputCommandInteraction,
+	EmbedBuilder,
+	MessageFlags,
+	SlashCommandBuilder,
+} from 'discord.js';
+
 import { formatLargeNumber } from 'lib/utils';
 
 /**

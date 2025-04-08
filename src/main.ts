@@ -1,8 +1,11 @@
 import { config } from 'config/config';
-import { readyEvent } from 'events/ready';
+
 import { ChillyClient } from 'client';
+
 import { interactionCreateEvent } from 'events/interaction';
 import { messageEvent } from 'events/message';
+import { readyEvent } from 'events/ready';
+
 import { logMessage } from 'lib/utils';
 
 /**

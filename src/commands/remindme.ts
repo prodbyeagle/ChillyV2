@@ -1,11 +1,13 @@
-import {
-	SlashCommandBuilder,
-	EmbedBuilder,
-	ChatInputCommandInteraction,
-	MessageFlags,
-} from 'discord.js';
-import type { ICommand } from 'types';
 import { branding } from 'config/config';
+
+import type { ICommand } from 'types';
+
+import {
+	ChatInputCommandInteraction,
+	EmbedBuilder,
+	MessageFlags,
+	SlashCommandBuilder,
+} from 'discord.js';
 
 const parseDuration = (input: string): number | null => {
 	const regex = /^(\d+)([smhdwy])$/;

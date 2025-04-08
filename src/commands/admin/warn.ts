@@ -1,13 +1,15 @@
-import {
-	SlashCommandBuilder,
-	EmbedBuilder,
-	ChatInputCommandInteraction,
-	MessageFlags,
-	PermissionFlagsBits,
-} from 'discord.js';
-import type { ICommand } from 'types';
 import { Api } from 'config/api';
 import { branding } from 'config/config';
+
+import type { ICommand } from 'types';
+
+import {
+	ChatInputCommandInteraction,
+	EmbedBuilder,
+	MessageFlags,
+	PermissionFlagsBits,
+	SlashCommandBuilder,
+} from 'discord.js';
 
 export const warnCommand: ICommand = {
 	name: 'warn',

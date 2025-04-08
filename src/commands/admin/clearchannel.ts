@@ -1,23 +1,19 @@
+import { branding, channelBlacklist } from 'config/config';
+
+import type { ICommand } from 'types';
+
 import {
-	SlashCommandBuilder,
-	EmbedBuilder,
-	ChatInputCommandInteraction,
-	PermissionFlagsBits,
-	TextChannel,
 	ActionRowBuilder,
 	ButtonBuilder,
 	ButtonStyle,
+	ChatInputCommandInteraction,
 	ComponentType,
-  MessageFlags,
+	EmbedBuilder,
+	MessageFlags,
+	PermissionFlagsBits,
+	SlashCommandBuilder,
+	TextChannel,
 } from 'discord.js';
-import type { ICommand } from 'types';
-import { branding } from 'config/config';
-
-const channelBlacklist = new Set([
-	'893762440196677646',
-	'1112296580431757392',
-	'1176670295587823696',
-]);
 
 export const clearChannelCommand: ICommand = {
 	name: 'clearchannel',
