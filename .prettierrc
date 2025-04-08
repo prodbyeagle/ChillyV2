@@ -6,5 +6,19 @@
 	"useTabs": true,
 	"bracketSpacing": true,
 	"jsxSingleQuote": true,
-	"bracketSameLine": true
+	"bracketSameLine": true,
+	"plugins": ["@trivago/prettier-plugin-sort-imports"],
+	"importOrder": [
+		"^config($|/)",
+		"^api($|/)",
+		"^types($|/)",
+		"^client($|/)",
+		"^commands($|/)",
+		"^events($|/)",
+		"^discord\\.js($|/)",
+		"^lib($|/)",
+		"^[./]"
+	],
+	"importOrderSeparation": true,
+	"importOrderSortSpecifiers": true
 }
