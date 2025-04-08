@@ -1,5 +1,6 @@
-import { Client, Collection, GatewayIntentBits } from 'discord.js';
 import type { ICommand } from 'types';
+
+import { Client, Collection, GatewayIntentBits } from 'discord.js';
 
 /**
  * Custom Discord client class for the ChillyBot.
