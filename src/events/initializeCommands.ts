@@ -1,58 +1,52 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { REST, Routes } from 'discord.js';
 import { config } from 'config/config';
-import { ChillyClient } from 'client';
-import { logMessage } from 'lib/utils';
 
-import { profileCommand } from 'commands/profile';
-import { eventCommand } from 'commands/event';
-import { robCommand } from 'commands/fun/rob';
-import { leaderboardCommand } from 'commands/leaderboard';
+import type { ICommand } from 'types';
+
+import { ChillyClient } from 'client';
+
 import { banCommand } from 'commands/admin/ban';
-import { unbanCommand } from 'commands/admin/unban';
+import { clearChannelCommand } from 'commands/admin/clearchannel';
 import { lockCommand } from 'commands/admin/lock';
+import { unbanCommand } from 'commands/admin/unban';
 import { unlockCommand } from 'commands/admin/unlock';
 import { warnCommand } from 'commands/admin/warn';
-import { remindMeCommand } from 'commands/remindme';
+import { eventCommand } from 'commands/event';
+import { robCommand } from 'commands/fun/rob';
 import { triviaCommand } from 'commands/fun/trivia';
-import { clearChannelCommand } from 'commands/admin/clearchannel';
+import { leaderboardCommand } from 'commands/leaderboard';
+import { profileCommand } from 'commands/profile';
+import { remindMeCommand } from 'commands/remindme';
 import { settingsCommand } from 'commands/settings';
 
-/**
- * Initializes and registers all commands for the bot.
- */
+import { REST, Routes } from 'discord.js';
+
+import { logMessage } from 'lib/utils';
+
 export const initializeCommands = async (client: ChillyClient) => {
 	const rest = new REST({ version: '10' }).setToken(config.token);
 
-	const commands = new Map<string, any>();
+	const commands = new Map<string, ICommand>();
 
-	commands.set(profileCommand.name, profileCommand);
-	commands.set(eventCommand.name, eventCommand);
-	commands.set(robCommand.name, robCommand);
-	commands.set(leaderboardCommand.name, leaderboardCommand);
-	commands.set(banCommand.name, banCommand);
-	commands.set(unbanCommand.name, unbanCommand);
-	commands.set(lockCommand.name, lockCommand);
-	commands.set(unlockCommand.name, unlockCommand);
-	commands.set(warnCommand.name, warnCommand);
-	commands.set(remindMeCommand.name, remindMeCommand);
-	commands.set(triviaCommand.name, triviaCommand);
-	commands.set(clearChannelCommand.name, clearChannelCommand);
-	commands.set(settingsCommand.name, settingsCommand);
+	const allCommands: ICommand[] = [
+		profileCommand,
+		eventCommand,
+		robCommand,
+		leaderboardCommand,
+		banCommand,
+		unbanCommand,
+		lockCommand,
+		unlockCommand,
+		warnCommand,
+		remindMeCommand,
+		triviaCommand,
+		clearChannelCommand,
+		settingsCommand,
+	];
 
-	client.commands.set(profileCommand.name, profileCommand);
-	client.commands.set(eventCommand.name, eventCommand);
-	client.commands.set(robCommand.name, robCommand);
-	client.commands.set(leaderboardCommand.name, leaderboardCommand);
-	client.commands.set(banCommand.name, banCommand);
-	client.commands.set(unbanCommand.name, unbanCommand);
-	client.commands.set(lockCommand.name, lockCommand);
-	client.commands.set(unlockCommand.name, unlockCommand);
-	client.commands.set(warnCommand.name, warnCommand);
-	client.commands.set(remindMeCommand.name, remindMeCommand);
-	client.commands.set(triviaCommand.name, triviaCommand);
-	client.commands.set(clearChannelCommand.name, clearChannelCommand);
-	client.commands.set(settingsCommand.name, settingsCommand);
+	for (const command of allCommands) {
+		commands.set(command.name, command);
+		client.commands.set(command.name, command);
+	}
 
 	try {
 		await rest.put(Routes.applicationCommands(client.user.id), {
@@ -63,7 +57,9 @@ export const initializeCommands = async (client: ChillyClient) => {
 		logMessage('Commands successfully registered.', 'info');
 	} catch (error) {
 		logMessage(
-			`Error while refreshing commands: ${error.message}`,
+			`Error while refreshing commands: ${
+				error instanceof Error ? error.message : String(error)
+			}`,
 			'error'
 		);
 	}
