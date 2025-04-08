@@ -1,15 +1,29 @@
-# chilly-v2
+# Chilly
 
-To install dependencies:
+## Overview
 
-```bash
-bun install
-```
+A Discord bot built with discord.js and Supabase, offering administrative, fun, and utility commands.
 
-To run:
+## Installation
 
-```bash
-bun run
-```
+1. Clone the repository.
+2. Run `bun i` to install dependencies.
+3. Configure your `.env`.
 
-This project was created using `bun init` in bun v1.2.4. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+## Usage
+
+- Run in development: `bun cook`
+- Build for production: `bun serve`
+
+## Configuration
+
+- Bot token and settings in `/src/config/config`.
+- Database details in `/src/config/db.ts`.
+
+## Contributing
+
+Feel free to open issues or submit pull requests.
+
+## License
+
+Distributed under the MIT License.
