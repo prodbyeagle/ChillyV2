@@ -1,13 +1,15 @@
-import {
-	ChatInputCommandInteraction,
-	MessageFlags,
-	SlashCommandBuilder,
-	EmbedBuilder,
-	PermissionFlagsBits,
-} from 'discord.js';
-import type { ICommand, IPlayerData } from 'types';
 import { Api } from 'config/api';
 import { branding } from 'config/config';
+
+import type { ICommand, IPlayerData } from 'types';
+
+import {
+	ChatInputCommandInteraction,
+	EmbedBuilder,
+	MessageFlags,
+	PermissionFlagsBits,
+	SlashCommandBuilder,
+} from 'discord.js';
 
 export const banCommand: ICommand = {
 	name: 'ban',
@@ -67,7 +69,7 @@ export const banCommand: ICommand = {
 			}
 
 			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-			const { id, ...updatedData } = playerData;
+			const { userid, ...updatedData } = playerData;
 
 			updatedData.isbanned = true;
 			updatedData.banreason = banReason;
