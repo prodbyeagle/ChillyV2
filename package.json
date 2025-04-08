@@ -1,25 +1,23 @@
 {
-	"name": "chilly-v2",
-	"description": "Rewrite of my First Coding Project. An Discord Bot.",
+	"name": "chillyv2",
 	"scripts": {
 		"cook": "bun --bun run ./src/main.ts",
 		"serve": "bun build --outdir=target --sourcemap --target=node --minify ./src/main.ts",
-		"oven": "bunx eslint 'src/**'",
-		"bake": "bunx prettier --check --write './src/**/*.{ts,js,json,md}'"
+		"lint": "bunx eslint 'src/**'",
+		"format": "bunx prettier --check --write './src/**/*.{ts,js,json,md}'"
 	},
-	"author": "prodbyeagle",
-	"license": "MIT",
 	"devDependencies": {
-		"@eslint/js": "latest",
-		"@supabase/supabase-js": "latest",
-		"@types/bun": "latest",
-		"discord.js": "latest",
-		"eslint": "latest",
-		"globals": "latest",
-		"typescript": "latest",
-		"typescript-eslint": "latest",
-		"ulid": "latest",
-		"@types/he": "latest",
-		"he": "latest"
+		"@eslint/js": "^9.24.0",
+		"@supabase/supabase-js": "^2.49.4",
+		"@types/bun": "^1.2.8",
+		"discord.js": "^14.18.0",
+		"eslint": "^9.24.0",
+		"globals": "^16.0.0",
+		"typescript": "^5.8.3",
+		"typescript-eslint": "^8.29.1",
+		"ulid": "^3.0.0",
+		"@types/he": "^1.2.3",
+		"he": "^1.2.0",
+		"@trivago/prettier-plugin-sort-imports": "^5.2.2"
 	}
 }
